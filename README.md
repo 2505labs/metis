@@ -4,8 +4,18 @@ Local-first desktop agent console. Tauri (Rust core) + Svelte/Tailwind UI.
 Three agents — Files, Calendar, Email — that observe and *propose*; a human
 approves anything that writes.
 
-See [CLAUDE.md](CLAUDE.md) for architecture and rules, [SCAFFOLD.md](SCAFFOLD.md)
-for structure, and [PROMPTS.md](PROMPTS.md) for the build sequence.
+## New here? Start with these
+
+| Read | For |
+|------|-----|
+| **[STATUS.md](STATUS.md)** | The living dashboard — what's done, what's next, who owns what. **Check this first, every session.** |
+| **[CONTRIBUTING.md](CONTRIBUTING.md)** | How we work together — claiming work, branching, commit rules, definition of done. |
+| **[HANDOFF.md](HANDOFF.md)** | Deep onboarding / full project context. |
+| **[CHANGELOG.md](CHANGELOG.md)** | Dated history of what changed and why (MVP — things move). |
+| [CLAUDE.md](CLAUDE.md) | Architecture + the 5 non-negotiable rules. |
+| [SCAFFOLD.md](SCAFFOLD.md) | Repo structure + `Tier` / `LlmBackend` sketches. |
+| [PROMPTS.md](PROMPTS.md) | The 8-step build sequence. |
+| [docs/blueprint/](docs/blueprint/) | The broader "Collective Intelligence" vision Metis builds toward. |
 
 ## Prerequisites
 
