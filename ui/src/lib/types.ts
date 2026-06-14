@@ -9,11 +9,16 @@ export type AgentStatus = "active" | "idle" | "error" | "needs-auth";
 export interface AgentInfo {
   kind: AgentKind;
   name: string; // "Calendar Agent"
+  codename: string; // "Chronos" — display flourish
+  tagline: string; // "Calendar & Scheduling Intelligence"
   label: string; // "CALENDAR_AGENT"
   icon: string; // material symbol name
   status: AgentStatus;
+  statusLabel: string; // "Active" | "Idle" | "Mapping"
+  accent: "primary" | "tertiary" | "secondary"; // card accent color
   connection: string; // "Google" | "Local"
   lastObservation: string; // timestamp
+  nextAction: string; // one-line "next action" summary
   pendingActions: number;
   skills: string[];
 }

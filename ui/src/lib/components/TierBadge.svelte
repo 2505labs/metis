@@ -5,14 +5,14 @@
   let { tier }: { tier: Tier } = $props();
 
   const cls: Record<Tier, string> = {
-    ReadOnly: "bg-on-surface-variant/10 text-outline border-outline-variant",
-    ConfirmRequired: "bg-confirm/10 text-confirm border-confirm/30",
-    HighRisk: "bg-error/10 text-error border-error/30",
+    ReadOnly: "bg-surface-container-high text-on-surface-variant border-white/5",
+    ConfirmRequired: "bg-confirm/10 text-confirm border-confirm/20",
+    HighRisk: "bg-error-container/30 text-error border-error/20",
   };
 </script>
 
 <span
-  class="border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm {cls[
+  class="border rounded-full px-3 py-1 font-label-mono text-[11px] font-bold uppercase tracking-wide {cls[
     tier
   ]}"
 >

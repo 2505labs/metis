@@ -1,115 +1,97 @@
 <script lang="ts">
-  import { agents, queue, log } from "../mock";
+  import { agents, log } from "../mock";
   import { currentView, type ViewId } from "../nav";
   import AgentCard from "../components/AgentCard.svelte";
-  import TierBadge from "../components/TierBadge.svelte";
+  import type { LogKind } from "../types";
 
-  const recent = log.slice(0, 9);
+  const rows = log.slice(0, 6);
 
   function openAgent(kind: string) {
     currentView.set(kind as ViewId);
   }
+
+  const statusBadge: Record<LogKind, string> = {
+    Observed: "bg-secondary-container/40 text-on-secondary-container",
+    Proposed: "bg-confirm/10 text-confirm",
+    Approved: "bg-primary/10 text-primary",
+    Executed: "bg-primary/10 text-primary",
+    Rejected: "bg-error-container/30 text-error",
+  };
+
+  const entityColor: Record<string, string> = {
+    CALENDAR_AGENT: "text-primary",
+    EMAIL_AGENT: "text-tertiary",
+    FILES_AGENT: "text-secondary",
+  };
 </script>
 
-<div class="p-6 space-y-6">
-  <!-- System Overview -->
-  <section>
-    <div class="flex items-center justify-between mb-3 px-1">
-      <h2
-        class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2"
+<div class="p-margin-page max-w-7xl mx-auto">
+  <header class="mb-10">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface">Agent Dashboard</h2>
+    <p class="text-on-surface-variant">Monitoring 3 active autonomous entities</p>
+  </header>
+
+  <!-- Agent bento grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    {#each agents as agent (agent.kind)}
+      <AgentCard {agent} onOpen={() => openAgent(agent.kind)} />
+    {/each}
+  </div>
+
+  <!-- Operational Log -->
+  <section
+    class="mt-12 bg-surface-container-lowest/50 rounded-[32px] p-gutter glass-panel"
+  >
+    <div class="flex items-center justify-between mb-8">
+      <h4 class="font-title-md text-title-md text-on-surface">Operational Log</h4>
+      <button
+        type="button"
+        onclick={() => currentView.set("log")}
+        class="text-primary font-label-mono text-label-mono hover:underline flex items-center gap-1"
       >
-        <span class="material-symbols-outlined text-primary">analytics</span>
-        System Overview
-      </h2>
-      <span class="font-mono-sm text-mono-sm text-outline">AUTO_REFRESH: 500MS</span>
+        Full log
+        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </button>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {#each agents as agent (agent.kind)}
-        <AgentCard {agent} onOpen={() => openAgent(agent.kind)} />
-      {/each}
+    <div class="overflow-x-auto custom-scrollbar">
+      <table class="w-full text-left border-separate border-spacing-y-3">
+        <thead>
+          <tr
+            class="text-on-surface-variant font-label-mono text-label-mono uppercase tracking-wider"
+          >
+            <th class="pb-2 px-4">Timestamp</th>
+            <th class="pb-2 px-4">Entity</th>
+            <th class="pb-2 px-4">Action Type</th>
+            <th class="pb-2 px-4">Subject</th>
+            <th class="pb-2 px-4">Hash</th>
+            <th class="pb-2 px-4">Status</th>
+          </tr>
+        </thead>
+        <tbody class="font-body-sm">
+          {#each rows as e (e.id)}
+            <tr
+              class="bg-surface-container-high/40 hover:bg-surface-container-high transition-colors"
+            >
+              <td class="py-4 px-4 rounded-l-2xl font-label-mono text-on-surface-variant"
+                >{e.ts}</td
+              >
+              <td class="py-4 px-4 font-bold {entityColor[e.agent] ?? 'text-on-surface'}"
+                >{e.agent}</td
+              >
+              <td class="py-4 px-4 text-on-surface-variant">{e.kind}</td>
+              <td class="py-4 px-4 text-on-surface">{e.message}</td>
+              <td class="py-4 px-4 font-label-mono text-on-surface-variant">{e.hash}</td>
+              <td class="py-4 px-4 rounded-r-2xl">
+                <span
+                  class="px-3 py-1 rounded-full text-[11px] font-bold uppercase {statusBadge[
+                    e.kind
+                  ]}">{e.kind}</span
+                >
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
     </div>
   </section>
-
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-    <!-- Pending Approvals -->
-    <section class="flex flex-col h-full min-h-[400px]">
-      <div class="flex items-center justify-between mb-3 px-1">
-        <h2
-          class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2"
-        >
-          <span class="material-symbols-outlined text-primary">rule</span>
-          Pending Approvals
-        </h2>
-        <button
-          class="text-body-sm text-primary hover:underline"
-          onclick={() => currentView.set("queue")}>View all</button
-        >
-      </div>
-      <div
-        class="bg-surface-container-low border border-outline-variant flex-1 overflow-hidden flex flex-col"
-      >
-        <div class="overflow-y-auto">
-          {#each queue as item (item.id)}
-            <div
-              class="flex items-center gap-4 p-3 border-b border-outline-variant hover:bg-surface-container transition-colors"
-            >
-              <div
-                class="flex items-center justify-center w-10 h-10 bg-surface-container-highest border border-outline-variant shrink-0"
-              >
-                <span class="material-symbols-outlined text-primary">{item.icon}</span>
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="font-label-caps text-[10px] text-outline"
-                    >{item.agentLabel}</span
-                  >
-                  <span
-                    class="bg-surface-container-highest text-outline px-1.5 py-0.5 rounded-sm text-[10px] font-bold"
-                    >{item.id}</span
-                  >
-                </div>
-                <p class="text-body-sm text-on-surface truncate">{item.summary}</p>
-              </div>
-              <div class="flex flex-col items-end gap-2 shrink-0">
-                <TierBadge tier={item.tier} />
-                <button
-                  class="bg-transparent border border-outline-variant text-on-surface-variant font-bold text-[11px] px-3 py-1 rounded-sm hover:border-outline hover:text-on-surface transition-all"
-                  onclick={() => currentView.set("queue")}>Review</button
-                >
-              </div>
-            </div>
-          {/each}
-        </div>
-      </div>
-    </section>
-
-    <!-- Recent Activity -->
-    <section class="flex flex-col h-full min-h-[400px]">
-      <div class="flex items-center justify-between mb-3 px-1">
-        <h2
-          class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2"
-        >
-          <span class="material-symbols-outlined text-primary">receipt_long</span>
-          Recent Activity
-        </h2>
-        <button
-          class="text-body-sm text-primary hover:underline"
-          onclick={() => currentView.set("log")}>Full log</button
-        >
-      </div>
-      <div
-        class="bg-surface-container-low border border-outline-variant flex-1 overflow-hidden font-mono-sm text-mono-sm p-4 leading-relaxed"
-      >
-        <div class="space-y-1.5 overflow-y-auto h-full pr-2">
-          {#each recent as e, i (e.id)}
-            <div class="flex gap-3" style="opacity: {Math.max(0.3, 1 - i * 0.07)}">
-              <span class="text-outline shrink-0">[{e.ts}]</span>
-              <span class="text-primary shrink-0">[{e.id}]</span>
-              <span class="text-on-surface">{e.agent}: {e.message}</span>
-            </div>
-          {/each}
-        </div>
-      </div>
-    </section>
-  </div>
 </div>

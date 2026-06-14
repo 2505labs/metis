@@ -24,15 +24,18 @@
   };
 </script>
 
-<div class="flex h-screen w-full overflow-hidden bg-background text-on-background">
+<div class="min-h-screen bg-background text-on-background relative">
   <Sidebar />
-  <div class="flex flex-col flex-1 min-w-0">
-    <TopBar />
-    <main class="flex-1 overflow-y-auto">
-      {#key view}
-        {@const Current = views[view]}
-        <Current />
-      {/key}
-    </main>
-  </div>
+  <TopBar />
+  <!-- Atmospheric obsidian glow, bottom-right -->
+  <div
+    class="fixed bottom-0 right-0 w-1/3 h-2/3 -z-10 opacity-20 pointer-events-none blur-3xl bg-[radial-gradient(circle_at_70%_70%,#3cddc7,transparent_70%)]"
+  ></div>
+
+  <main class="ml-[280px] pt-16 min-h-screen relative overflow-hidden">
+    {#key view}
+      {@const Current = views[view]}
+      <Current />
+    {/key}
+  </main>
 </div>

@@ -18,13 +18,13 @@ export interface NavItem {
 }
 
 export const primaryNav: NavItem[] = [
-  { id: "dashboard", label: "Main Console", icon: "terminal" },
-  { id: "queue", label: "Confirm Queue", icon: "rule" },
-  { id: "log", label: "Event Log", icon: "receipt_long" },
+  { id: "dashboard", label: "Agents", icon: "smart_toy" },
+  { id: "queue", label: "Confirm Queue", icon: "rule_folder" },
+  { id: "log", label: "Event Log", icon: "history" },
 ];
 
 export const agentNav: NavItem[] = [
-  { id: "calendar", label: "Calendar Agent", icon: "calendar_today" },
+  { id: "calendar", label: "Calendar Agent", icon: "calendar_month" },
   { id: "email", label: "Email Agent", icon: "mail" },
-  { id: "files", label: "Files Agent", icon: "folder_open" },
+  { id: "files", label: "Files Agent", icon: "folder_managed" },
 ];

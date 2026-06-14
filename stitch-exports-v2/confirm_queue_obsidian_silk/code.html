@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Metis - Confirm Queue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#d8e3fb",
+                        "surface-dim": "#111317",
+                        "secondary": "#bcc7de",
+                        "surface-container-lowest": "#0c0e12",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "inverse-on-surface": "#2f3035",
+                        "primary": "#57f1db",
+                        "surface-variant": "#333539",
+                        "tertiary-fixed": "#d3e4fe",
+                        "surface-tint": "#3cddc7",
+                        "on-primary": "#003731",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-error": "#690005",
+                        "on-surface": "#e2e2e8",
+                        "primary-container": "#2dd4bf",
+                        "on-secondary": "#263143",
+                        "secondary-container": "#3e495d",
+                        "error": "#ffb4ab",
+                        "on-tertiary-container": "#3e4e63",
+                        "on-background": "#e2e2e8",
+                        "surface-container-highest": "#333539",
+                        "outline": "#859490",
+                        "background": "#111317",
+                        "tertiary": "#cadbf5",
+                        "on-tertiary": "#213145",
+                        "surface-container-high": "#282a2e",
+                        "on-secondary-fixed": "#111c2d",
+                        "surface-container": "#1e2024",
+                        "on-secondary-container": "#aeb9d0",
+                        "on-primary-fixed": "#00201c",
+                        "on-primary-fixed-variant": "#005047",
+                        "outline-variant": "#3c4a46",
+                        "on-surface-variant": "#bacac5",
+                        "primary-fixed": "#62fae3",
+                        "on-primary-container": "#00574d",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "surface-container-low": "#1a1c20",
+                        "tertiary-container": "#afbfd9",
+                        "inverse-surface": "#e2e2e8",
+                        "error-container": "#93000a",
+                        "surface-bright": "#37393e",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#006b5f",
+                        "surface": "#111317",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "primary-fixed-dim": "#3cddc7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "container-padding": "16px",
+                        "margin-page": "40px",
+                        "stack-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "title-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "label-mono": ["13px", {"lineHeight": "1.5", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #111317;
+            color: #e2e2e8;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(26, 29, 35, 0.7);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .beveled-edge {
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+        }
+        .recessed-well {
+            background: rgba(12, 14, 18, 0.4);
+            box-shadow: inset 0 2px 8px 0 rgba(0, 0, 0, 0.4);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .obsidian-card {
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .obsidian-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 30px 40px -20px rgba(0,0,0,0.5);
+            border-color: rgba(87, 241, 219, 0.2);
+        }
+    </style>
+</head>
+<body class="font-body-lg text-body-lg">
+<!-- Sidebar Navigation -->
+<aside class="w-[280px] h-full fixed left-0 top-0 bg-surface/70 backdrop-blur-3xl border-r border-white/5 shadow-2xl shadow-surface-container-lowest/20 flex flex-col p-gutter z-[60]">
+<div class="mb-10">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tight">Metis</h1>
+<p class="text-on-surface-variant text-sm mt-1 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                System Active
+            </p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-variant/40 rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-title-md text-title-md">Agents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-xl shadow-inner active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="rule_folder" style="font-variation-settings: 'FILL' 1;">rule_folder</span>
+<span class="font-title-md text-title-md font-semibold">Confirm Queue</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-variant/40 rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-title-md text-title-md">Event Log</span>
+</a>
+</nav>
+<div class="mt-auto space-y-2 pt-10">
+<button class="w-full py-4 bg-gradient-to-tr from-[#006b5f] to-[#57f1db] text-on-primary font-bold rounded-2xl flex items-center justify-center gap-2 mb-6 beveled-edge hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Agent
+            </button>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-variant/40 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-title-md text-title-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-variant/40 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-title-md text-title-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] min-h-screen relative">
+<!-- Top Nav Bar -->
+<header class="h-16 fixed top-0 right-0 left-[280px] bg-surface/70 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-margin-page z-50 shadow-sm">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary/50 text-body-sm" placeholder="Search queue..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="monitor_heart">monitor_heart</span></button>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-white/10">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A professional close-up portrait of a technology director in a dark studio setting with soft cyan rim lighting. The style is cinematic and high-end, matching an obsidian aesthetic. The character wears a dark, minimalist high-tech garment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5pw4m3HaLc2lNiyV3W6zpL4SAgrVkzt2xb1DCY4YUT8fZYkpy1BVWfXnLdCd4zbtselm8_M8DrUcMYj5P9C4F8Os5M48Hz9rtyJ7xTedvZ93UrynEwkpRkRTkV9KGoqPDUKslTjvDz_HiKsqM6NBYchwx_g7MMYWk1Oic1Zx6_qWIRDwLwvMEAVho2B4UvtVPhHkjAX5J-MiRhKp-6iTjMaf_mToZT8NPKVvYoqJHGYFwnUnXvR5uXZJ5Uao45AyVoZsZA_L8en8"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<section class="pt-24 pb-margin-page px-margin-page max-w-7xl mx-auto">
+<div class="flex items-end justify-between mb-10">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface tracking-tighter">Confirm Queue</h2>
+<p class="text-on-surface-variant mt-2 font-body-lg">Pending AI actions requiring human verification.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-variant/20 transition-all font-label-mono uppercase tracking-widest text-[11px]">Filter: All</button>
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-mono uppercase tracking-widest text-[11px] font-bold hover:opacity-90">Approve All</button>
+</div>
+</div>
+<!-- Queue Items -->
+<div class="grid grid-cols-1 gap-8">
+<!-- Queue Card 1 (Email) -->
+<div class="obsidian-card glass-panel rounded-[32px] p-8 beveled-edge flex flex-col md:flex-row gap-8">
+<div class="flex-none flex flex-col items-center">
+<div class="w-16 h-16 rounded-3xl bg-secondary-container flex items-center justify-center text-primary mb-4 shadow-xl">
+<span class="material-symbols-outlined scale-125" data-icon="alternate_email" style="font-variation-settings: 'FILL' 1;">alternate_email</span>
+</div>
+<span class="font-label-mono text-[10px] text-primary/60 uppercase tracking-[0.2em]">09:42 AM</span>
+</div>
+<div class="flex-1 space-y-6">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface mb-1">Email Draft: Partnership Proposal</h3>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-label-mono text-[10px] uppercase">Agent: Marketing-X</span>
+<span class="text-on-surface-variant text-sm font-body-sm">To: sarah.j@lumina.io</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-mono text-xs text-on-surface-variant block">CONFIDENCE</span>
+<span class="text-primary font-bold text-xl">94%</span>
+</div>
+</div>
+<!-- Recessed Preview Block -->
+<div class="recessed-well rounded-[24px] p-6 text-on-surface-variant font-body-lg leading-relaxed border border-white/5 italic">
+                            "Subject: Strategic Partnership Opportunity - Q3 Roadmap... Hi Sarah, I've been following Lumina's recent breakthroughs in spatial computing. Our team at Metis has developed a bridge protocol that aligns perfectly with your..."
+                        </div>
+<div class="flex items-center gap-4 pt-2">
+<button class="flex-1 py-4 rounded-full bg-primary text-on-primary font-bold hover:scale-[1.01] active:scale-[0.98] transition-all shadow-lg shadow-primary/10">Approve &amp; Send</button>
+<button class="px-8 py-4 rounded-full border border-outline-variant text-on-surface-variant hover:bg-error/10 hover:text-error hover:border-error transition-all font-bold">Reject</button>
+<button class="p-4 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-variant/40 transition-all">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Queue Card 2 (Calendar) -->
+<div class="obsidian-card glass-panel rounded-[32px] p-8 beveled-edge flex flex-col md:flex-row gap-8">
+<div class="flex-none flex flex-col items-center">
+<div class="w-16 h-16 rounded-3xl bg-secondary-container flex items-center justify-center text-primary mb-4 shadow-xl">
+<span class="material-symbols-outlined scale-125" data-icon="calendar_month" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+</div>
+<span class="font-label-mono text-[10px] text-primary/60 uppercase tracking-[0.2em]">10:15 AM</span>
+</div>
+<div class="flex-1 space-y-6">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface mb-1">Calendar Event: Board Sync</h3>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-label-mono text-[10px] uppercase">Agent: Executive-Core</span>
+<span class="text-on-surface-variant text-sm font-body-sm">Oct 24, 2:00 PM - 3:00 PM</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-mono text-xs text-on-surface-variant block">CONFIDENCE</span>
+<span class="text-primary font-bold text-xl">88%</span>
+</div>
+</div>
+<!-- Recessed Preview Block -->
+<div class="recessed-well rounded-[24px] p-6 border border-white/5 flex gap-6 items-center">
+<div class="flex-none text-center px-4 py-2 bg-surface-container-highest rounded-2xl border border-white/5">
+<span class="block text-primary font-bold text-2xl">24</span>
+<span class="block text-on-surface-variant font-label-mono text-[10px] uppercase">Oct</span>
+</div>
+<div>
+<p class="text-on-surface font-semibold">Strategic Review Session</p>
+<p class="text-on-surface-variant text-sm">Meeting Room: Obsidian Alpha (Virtual)</p>
+<p class="text-on-surface-variant text-xs mt-1">3 Conflict(s) resolved automatically by shifting 1:1s.</p>
+</div>
+</div>
+<div class="flex items-center gap-4 pt-2">
+<button class="flex-1 py-4 rounded-full bg-primary text-on-primary font-bold hover:scale-[1.01] active:scale-[0.98] transition-all">Confirm Event</button>
+<button class="px-8 py-4 rounded-full border border-outline-variant text-on-surface-variant hover:bg-error/10 hover:text-error hover:border-error transition-all font-bold">Reject</button>
+<button class="p-4 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-variant/40 transition-all">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Queue Card 3 (Data/File) -->
+<div class="obsidian-card glass-panel rounded-[32px] p-8 beveled-edge flex flex-col md:flex-row gap-8 opacity-60">
+<div class="flex-none flex flex-col items-center">
+<div class="w-16 h-16 rounded-3xl bg-surface-container flex items-center justify-center text-on-surface-variant mb-4 shadow-sm">
+<span class="material-symbols-outlined scale-125" data-icon="description">description</span>
+</div>
+<span class="font-label-mono text-[10px] text-on-surface-variant uppercase tracking-[0.2em]">11:02 AM</span>
+</div>
+<div class="flex-1 space-y-6">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface-variant mb-1">File Deployment: V2 API Docs</h3>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-surface-variant/30 text-on-surface-variant font-label-mono text-[10px] uppercase">Agent: DevOps-Prime</span>
+<span class="text-on-surface-variant text-sm font-body-sm">Target: production-cdn</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-mono text-xs text-on-surface-variant block">CONFIDENCE</span>
+<span class="text-on-surface-variant font-bold text-xl">100%</span>
+</div>
+</div>
+<div class="recessed-well rounded-[24px] p-6 border border-white/5 flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface-variant font-body-sm">Automated checks passed. All dependencies verified. Manual oversight required for production push.</span>
+</div>
+<div class="flex items-center gap-4 pt-2">
+<button class="flex-1 py-4 rounded-full bg-secondary-container text-on-secondary-container font-bold cursor-not-allowed">Deployment Queued</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State / Stats Row -->
+<div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="glass-panel rounded-3xl p-6 flex items-center gap-4 border border-white/5">
+<div class="p-3 bg-primary/10 rounded-2xl text-primary"><span class="material-symbols-outlined" data-icon="speed">speed</span></div>
+<div>
+<p class="font-label-mono text-[10px] uppercase text-on-surface-variant tracking-wider">Avg Processing Time</p>
+<p class="font-title-md text-title-md text-on-surface">1.2 seconds</p>
+</div>
+</div>
+<div class="glass-panel rounded-3xl p-6 flex items-center gap-4 border border-white/5">
+<div class="p-3 bg-primary/10 rounded-2xl text-primary"><span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span></div>
+<div>
+<p class="font-label-mono text-[10px] uppercase text-on-surface-variant tracking-wider">Auto-Approvals Today</p>
+<p class="font-title-md text-title-md text-on-surface">1,204 actions</p>
+</div>
+</div>
+<div class="glass-panel rounded-3xl p-6 flex items-center gap-4 border border-white/5">
+<div class="p-3 bg-error/10 rounded-2xl text-error"><span class="material-symbols-outlined" data-icon="security">security</span></div>
+<div>
+<p class="font-label-mono text-[10px] uppercase text-on-surface-variant tracking-wider">Security Blocked</p>
+<p class="font-title-md text-title-md text-on-surface">0 threats</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Dynamic Background Elements -->
+<div class="fixed top-0 right-0 -z-10 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="fixed bottom-0 left-[300px] -z-10 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none"></div>
+</main>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.95)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = '';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = '';
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.style.maxWidth = '600px';
+            searchInput.parentElement.style.transition = 'max-width 0.3s ease';
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.style.maxWidth = '448px';
+        });
+    </script>
+</body></html>

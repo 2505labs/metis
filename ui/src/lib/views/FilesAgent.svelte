@@ -95,99 +95,112 @@
   }
 </script>
 
-<div class="p-6 flex flex-col gap-4 h-full overflow-hidden bg-background">
+<div class="p-margin-page max-w-7xl mx-auto">
   <!-- Header -->
-  <section class="flex items-center justify-between shrink-0">
-    <div>
-      <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface">
-        Filesystem Intelligence
-      </h2>
-      <p class="text-body-sm text-on-surface-variant flex items-center gap-2 mt-0.5">
-        <span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
-        Local-first &middot; read-only &middot; {fileCount} files, {dirCount} folders
-      </p>
-    </div>
-    <div class="flex gap-2">
-      <button
-        type="button"
-        class="px-3 py-1 border border-outline-variant text-body-sm flex items-center gap-2 hover:bg-surface-container transition-colors text-on-surface-variant"
+  <header class="mb-10 flex items-start justify-between gap-6">
+    <div class="flex items-start gap-4">
+      <div
+        class="w-14 h-14 rounded-2xl bg-secondary-container/20 text-secondary flex items-center justify-center"
       >
-        <span class="material-symbols-outlined">refresh</span> Re-index
-      </button>
+        <span class="material-symbols-outlined text-3xl">folder</span>
+      </div>
+      <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface">
+          Filesystem Intelligence
+        </h2>
+        <p class="text-on-surface-variant flex items-center gap-2 mt-1">
+          <span class="w-2 h-2 rounded-full bg-primary status-glow-active inline-block"></span>
+          Local-first · read-only · {fileCount} files, {dirCount} folders
+        </p>
+      </div>
     </div>
-  </section>
+    <span
+      class="bg-surface-container-high text-on-surface-variant rounded-full px-3 py-1 font-label-mono text-[11px] uppercase shrink-0"
+    >
+      Read-only
+    </span>
+  </header>
 
   <!-- Content search over (mock) file contents -->
-  <div
-    class="flex items-center gap-2 px-2 py-1.5 bg-surface-container-low border border-outline-variant shrink-0 max-w-xl"
-  >
-    <span class="material-symbols-outlined text-outline">search</span>
-    <input
-      type="text"
-      bind:value={query}
-      placeholder="Search file names and contents..."
-      class="bg-transparent border-none focus:ring-0 text-body-sm w-full text-on-surface placeholder:text-outline outline-none p-0"
-    />
-    {#if query}
-      <button
-        type="button"
-        onclick={() => (query = "")}
-        class="text-outline hover:text-on-surface"
-        aria-label="Clear search"
-      >
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    {/if}
+  <div class="mb-8 max-w-xl">
+    <div
+      class="flex items-center gap-2 px-4 py-2.5 bg-surface-container-lowest/40 rounded-xl border border-white/5"
+    >
+      <span class="material-symbols-outlined text-outline">search</span>
+      <input
+        type="text"
+        bind:value={query}
+        placeholder="Search file names and contents..."
+        class="bg-transparent border-none focus:ring-0 font-body-sm w-full text-on-surface placeholder:text-outline outline-none p-0"
+      />
+      {#if query}
+        <button
+          type="button"
+          onclick={() => (query = "")}
+          class="text-outline hover:text-on-surface transition-colors"
+          aria-label="Clear search"
+        >
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      {/if}
+    </div>
   </div>
 
   <!-- Two-pane: file browser (left) + viewer (right) -->
-  <div class="grid grid-cols-12 gap-4 flex-1 min-h-0">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
     <!-- Left: directory listing -->
-    <div
-      class="col-span-7 border border-outline-variant bg-surface-container-low flex flex-col overflow-hidden"
+    <section
+      class="lg:col-span-7 bg-surface-container-low/60 backdrop-blur-xl rounded-[32px] p-gutter glass-panel shadow-xl flex flex-col"
     >
-      <div class="p-3 border-b border-outline-variant flex items-center justify-between shrink-0">
-        <span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">
-          Directory
-        </span>
-        <span class="font-mono-sm text-mono-sm text-primary">{cwd}</span>
+      <div class="flex items-center justify-between mb-6">
+        <h4 class="font-title-md text-title-md text-on-surface">Directory</h4>
+        <span class="font-label-mono text-label-mono text-secondary truncate max-w-[55%]"
+          >{cwd}</span
+        >
       </div>
 
-      <div class="overflow-y-auto flex-1">
-        <table class="w-full text-left border-collapse">
+      <div class="bg-surface-container-lowest/40 rounded-2xl p-4 border border-white/5">
+        <table class="w-full text-left border-separate border-spacing-y-2">
           <thead>
-            <tr class="bg-surface-container border-b border-outline-variant sticky top-0">
-              <th class="px-3 py-2 font-label-caps text-label-caps text-outline">NAME</th>
-              <th class="px-3 py-2 font-label-caps text-label-caps text-outline">SIZE</th>
-              <th class="px-3 py-2 font-label-caps text-label-caps text-outline">MODIFIED</th>
+            <tr
+              class="text-on-surface-variant font-label-mono text-label-mono uppercase tracking-wider"
+            >
+              <th class="pb-3 px-3">Name</th>
+              <th class="pb-3 px-3">Size</th>
+              <th class="pb-3 px-3">Modified</th>
             </tr>
           </thead>
-          <tbody class="font-mono-sm text-mono-sm">
+          <tbody class="font-label-mono text-label-mono">
             {#each filtered as entry (entry.name)}
               <tr
-                class="border-b border-outline-variant/30 transition-colors cursor-pointer
+                class="transition-colors cursor-pointer
                   {entry.name === selectedName
-                  ? 'bg-surface-container-high'
-                  : 'hover:bg-surface-container'}"
+                  ? 'bg-surface-container-high border border-white/5'
+                  : 'hover:bg-surface-container-high/60'}"
                 onclick={() => select(entry)}
               >
-                <td class="px-3 py-2 text-on-surface truncate max-w-[280px]">
+                <td class="py-3 px-3 rounded-l-2xl text-on-surface truncate max-w-[280px]">
                   <span class="flex items-center gap-2">
                     <span
-                      class="material-symbols-outlined {entry.kind === 'dir'
-                        ? 'text-primary'
+                      class="material-symbols-outlined text-[18px] {entry.kind === 'dir'
+                        ? 'text-secondary'
                         : 'text-on-surface-variant'}">{iconFor(entry.kind)}</span
                     >
                     <span class="truncate">{entry.name}</span>
                   </span>
                 </td>
-                <td class="px-3 py-2 text-on-surface-variant whitespace-nowrap">{entry.size}</td>
-                <td class="px-3 py-2 text-outline whitespace-nowrap">{entry.modified}</td>
+                <td class="py-3 px-3 text-on-surface-variant whitespace-nowrap">{entry.size}</td>
+                <td class="py-3 px-3 rounded-r-2xl text-outline whitespace-nowrap"
+                  >{entry.modified}</td
+                >
               </tr>
             {/each}
             {#if filtered.length === 0}
               <tr>
-                <td colspan="3" class="px-3 py-8 text-center text-on-surface-variant font-body-sm">
+                <td
+                  colspan="3"
+                  class="py-10 px-3 text-center text-on-surface-variant font-body-sm"
+                >
                   No entries match &ldquo;{query}&rdquo;.
                 </td>
               </tr>
@@ -195,62 +208,69 @@
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
 
     <!-- Right: file viewer (plain-text, untrusted content) -->
-    <div
-      class="col-span-5 border border-outline-variant bg-surface-container-low flex flex-col overflow-hidden"
+    <section
+      class="lg:col-span-5 bg-surface-container-low/60 backdrop-blur-xl rounded-[32px] p-gutter glass-panel shadow-xl flex flex-col"
     >
-      <div class="p-3 border-b border-outline-variant flex items-center justify-between shrink-0">
-        <span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">
-          Viewer
+      <div class="flex items-center justify-between mb-6">
+        <h4 class="font-title-md text-title-md text-on-surface">Viewer</h4>
+        <span
+          class="bg-surface-container-high text-on-surface-variant rounded-full px-3 py-1 font-label-mono text-[11px] uppercase"
+        >
+          Read-only
         </span>
-        <span class="font-mono-sm text-mono-sm text-outline uppercase">read-only</span>
       </div>
 
       {#if selected && selected.kind === "file"}
-        <div
-          class="px-3 py-2 border-b border-outline-variant flex items-center gap-2 shrink-0 bg-surface-container"
-        >
-          <span class="material-symbols-outlined text-on-surface-variant">description</span>
-          <span class="font-mono-md text-mono-md text-on-surface truncate">{selected.name}</span>
-          <span class="font-mono-sm text-mono-sm text-outline ml-auto whitespace-nowrap"
+        <div class="flex items-center gap-2 mb-4 px-2">
+          <span class="material-symbols-outlined text-secondary">description</span>
+          <span class="font-label-mono text-label-mono text-on-surface truncate"
+            >{selected.name}</span
+          >
+          <span class="font-label-mono text-label-mono text-outline ml-auto whitespace-nowrap"
             >{selected.size}</span
           >
         </div>
         <!-- Untrusted file contents: rendered as plain text inside <pre>. -->
-        <pre
-          class="flex-1 overflow-auto p-4 font-mono-md text-mono-md text-on-surface whitespace-pre-wrap break-words m-0">{selected.content ?? ""}</pre>
+        <div
+          class="flex-1 bg-surface-container-lowest/60 rounded-2xl p-4 border border-white/5 overflow-auto"
+        >
+          <pre
+            class="font-label-mono text-label-mono whitespace-pre-wrap break-words text-on-surface-variant m-0">{selected.content ?? ""}</pre>
+        </div>
       {:else}
         <div
-          class="flex-1 flex flex-col items-center justify-center gap-2 text-on-surface-variant"
+          class="flex-1 bg-surface-container-lowest/40 rounded-2xl border border-white/5 flex flex-col items-center justify-center gap-3 text-on-surface-variant py-16"
         >
           <span class="material-symbols-outlined text-4xl text-outline">draft</span>
           <span class="font-body-sm">Select a file to view its contents.</span>
         </div>
       {/if}
-    </div>
+    </section>
   </div>
 
   <!-- Telemetry strip -->
   <footer
-    class="border border-outline-variant bg-surface-container-low px-4 py-2 flex items-center justify-between font-mono-sm text-mono-sm shrink-0"
+    class="mt-8 bg-surface-container-lowest/40 rounded-2xl border border-white/5 px-6 py-4 flex flex-wrap items-center justify-between gap-4 font-label-mono text-label-mono"
   >
-    <div class="flex gap-6">
-      <span class="text-outline uppercase tracking-widest"
-        >DISK_USAGE: <span class="text-on-surface">42% (512GB FREE)</span></span
+    <div class="flex flex-wrap gap-6">
+      <span class="text-on-surface-variant uppercase tracking-wider"
+        >Disk usage: <span class="text-on-surface">42% (512GB free)</span></span
       >
-      <span class="text-outline uppercase tracking-widest"
-        >MODE: <span class="text-secondary">READ-ONLY</span></span
+      <span class="text-on-surface-variant uppercase tracking-wider"
+        >Mode: <span class="text-secondary">Read-only</span></span
       >
     </div>
-    <div class="flex items-center gap-4">
-      <span class="flex items-center gap-1.5">
-        <span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span> LOCAL_DAEMON:
-        CONNECTED
+    <div class="flex flex-wrap items-center gap-4">
+      <span class="flex items-center gap-2 text-on-surface-variant uppercase tracking-wider">
+        <span class="w-2 h-2 rounded-full bg-primary status-glow-active inline-block"></span>
+        Local daemon: connected
       </span>
-      <span class="flex items-center gap-1.5">
-        <span class="w-1.5 h-1.5 rounded-full bg-outline inline-block"></span> CLOUD_SYNC: PAUSED
+      <span class="flex items-center gap-2 text-on-surface-variant uppercase tracking-wider">
+        <span class="w-2 h-2 rounded-full bg-outline inline-block"></span>
+        Cloud sync: paused
       </span>
     </div>
   </footer>
