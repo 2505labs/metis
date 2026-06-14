@@ -1,0 +1,16 @@
+[package]
+name = "metis-agents"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+metis-core = { workspace = true }
+metis-llm = { workspace = true }
+metis-gate = { workspace = true }
+metis-log = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+async-trait = { workspace = true }
+reqwest = { workspace = true }
+keyring = { workspace = true }

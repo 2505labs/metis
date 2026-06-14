@@ -1,0 +1,13 @@
+[package]
+name = "metis-log"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+metis-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+sha2 = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }

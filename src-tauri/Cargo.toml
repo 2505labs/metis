@@ -1,0 +1,26 @@
+[package]
+name = "metis-app"
+version = "0.1.0"
+description = "Metis — local-first desktop agent console"
+authors = ["Metis"]
+edition = "2021"
+
+[lib]
+name = "metis_app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Metis core wiring (used from Step 1 onward).
+metis-core = { workspace = true }
+metis-llm = { workspace = true }
+metis-log = { workspace = true }
+metis-gate = { workspace = true }
+metis-agents = { workspace = true }

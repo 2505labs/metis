@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Metis Main Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;450&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09100e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3c4a46;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #859490;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#00574d",
+                        "on-secondary-container": "#8bbfb5",
+                        "on-primary": "#003731",
+                        "primary-fixed": "#62fae3",
+                        "inverse-on-surface": "#2b3230",
+                        "background": "#0e1513",
+                        "surface-container-low": "#161d1b",
+                        "surface": "#0e1513",
+                        "on-tertiary": "#4b2800",
+                        "inverse-surface": "#dde4e1",
+                        "surface-variant": "#2f3634",
+                        "on-surface-variant": "#bacac5",
+                        "tertiary-fixed-dim": "#ffb875",
+                        "inverse-primary": "#006b5f",
+                        "on-primary-fixed": "#00201c",
+                        "on-tertiary-container": "#744000",
+                        "secondary-fixed": "#b8ede2",
+                        "surface-dim": "#0e1513",
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#333b39",
+                        "secondary": "#9cd1c6",
+                        "surface-container": "#1a211f",
+                        "surface-container-highest": "#2f3634",
+                        "surface-container-high": "#242b2a",
+                        "on-background": "#dde4e1",
+                        "tertiary": "#ffd1aa",
+                        "surface-tint": "#3cddc7",
+                        "error-container": "#93000a",
+                        "on-surface": "#dde4e1",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-primary-fixed-variant": "#005047",
+                        "outline": "#859490",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#2d1600",
+                        "primary": "#57f1db",
+                        "outline-variant": "#3c4a46",
+                        "error": "#ffb4ab",
+                        "secondary-fixed-dim": "#9cd1c6",
+                        "on-secondary-fixed-variant": "#1a4f47",
+                        "primary-container": "#2dd4bf",
+                        "primary-fixed-dim": "#3cddc7",
+                        "tertiary-container": "#ffac5a",
+                        "on-secondary-fixed": "#00201c",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "surface-container-lowest": "#09100e",
+                        "on-secondary": "#003731",
+                        "secondary-container": "#1a4f47"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-padding": "12px",
+                        "gutter": "8px",
+                        "component-gap": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "mono-md": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"],
+                        "mono-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "mono-md": ["13px", {"lineHeight": "20px", "fontWeight": "450"}],
+                        "headline-sm": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "mono-sm": ["11px", {"lineHeight": "16px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="w-64 h-screen border-r border-outline-variant flex flex-col bg-background shrink-0">
+<div class="p-4 mb-2">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">Metis</div>
+<div class="text-[10px] uppercase tracking-widest text-outline">v2.4.0-stable</div>
+</div>
+<nav class="flex-1 px-2 space-y-1 overflow-y-auto">
+<!-- Navigation Items -->
+<a class="flex items-center gap-3 px-3 py-2 text-primary border-r-2 border-primary bg-surface-container-high transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+<span class="font-body-md text-body-md">Main Console</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+<span class="font-body-md text-body-md">Calendar Agent</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+<span class="font-body-md text-body-md">Email Agent</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">folder_open</span>
+<span class="font-body-md text-body-md">Files Agent</span>
+</a>
+</nav>
+<div class="mt-auto p-2 border-t border-outline-variant space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">code</span>
+<span class="font-body-md text-body-md">Terminal</span>
+</a>
+<div class="flex items-center gap-3 px-3 py-4 mt-2">
+<div class="w-8 h-8 rounded bg-surface-container-highest border border-outline-variant overflow-hidden">
+<img alt="Metis Operator Avatar" class="w-full h-full opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAqghxkoUt7E7kBaGGGxnfKnZB2_qGj6yl_Kdg71A1lTR7nM4bpUJ6I1jtomxpG6cskHIa4YTqrP-lmybDjH1o9wmiDZoPkRiSEtmlb2_AYk5Xfui8LcUyT49EvxQqesFQBgK0dXtDmleRHzwfK6vOcnqY9iP_qe_l6-nV6FcIus_j3qWWktqi_Cj8H1Cki4G4HpVa6jE94wtHYCocoQ5ilVdfPpSMxroKMgw6UXYoYBrAClBBIn4fjUepL5wSj8Tu4ZRCOYXC3T4"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface">OPERATOR_01</span>
+<span class="text-[10px] text-outline">STATION_ALPHA</span>
+</div>
+</div>
+</div>
+</aside>
+<div class="flex flex-col flex-1 min-w-0">
+<!-- TopNavBar -->
+<header class="h-12 w-full border-b border-outline-variant flex justify-between items-center px-4 bg-surface sticky top-0 z-50 shrink-0">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="bg-surface-container-low border border-outline-variant text-body-sm px-8 py-1 w-full focus:outline-none focus:border-primary transition-colors" placeholder="Search logs or commands..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1 bg-primary-container/10 border border-primary/20 text-primary cursor-pointer hover:bg-primary-container/20 transition-all scale-95 duration-100">
+<span class="font-label-caps text-label-caps">Pending Approvals</span>
+<span class="bg-primary text-on-primary text-[10px] px-1.5 font-bold rounded-sm">12</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors text-[20px]">monitor_heart</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors text-[20px]">group</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors text-[20px] relative">
+                            notifications
+                            <span class="absolute top-0 right-0 w-1.5 h-1.5 bg-error rounded-full"></span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- System Overview -->
+<section>
+<div class="flex items-center justify-between mb-3 px-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                            System Overview
+                        </h2>
+<span class="font-mono-sm text-mono-sm text-outline">AUTO_REFRESH: 500MS</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Calendar Agent Card -->
+<div class="bg-surface-container border border-outline-variant p-4 flex flex-col gap-3 group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<span class="font-label-caps text-label-caps text-on-surface">Calendar Agent</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+<span class="text-[10px] text-primary uppercase font-bold">Active</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="text-[10px] text-outline font-label-caps">LAST OBSERVATION</div>
+<div class="font-mono-md text-mono-md text-on-surface">2023-10-24 14:22:01.049</div>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-[20px] font-bold text-on-surface">04</span>
+<span class="text-[10px] text-outline uppercase">Pending Actions</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors cursor-pointer">open_in_new</span>
+</div>
+</div>
+<!-- Email Agent Card -->
+<div class="bg-surface-container border border-outline-variant p-4 flex flex-col gap-3 group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">mail</span>
+<span class="font-label-caps text-label-caps text-on-surface">Email Agent</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+<span class="text-[10px] text-primary uppercase font-bold">Active</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="text-[10px] text-outline font-label-caps">LAST OBSERVATION</div>
+<div class="font-mono-md text-mono-md text-on-surface">2023-10-24 14:21:58.821</div>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-[20px] font-bold text-on-surface">07</span>
+<span class="text-[10px] text-outline uppercase">Pending Actions</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors cursor-pointer">open_in_new</span>
+</div>
+</div>
+<!-- Files Agent Card -->
+<div class="bg-surface-container border border-outline-variant p-4 flex flex-col gap-3 group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">folder_open</span>
+<span class="font-label-caps text-label-caps text-on-surface">Files Agent</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+<span class="text-[10px] text-primary uppercase font-bold">Active</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="text-[10px] text-outline font-label-caps">LAST OBSERVATION</div>
+<div class="font-mono-md text-mono-md text-on-surface">2023-10-24 14:22:03.112</div>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-[20px] font-bold text-on-surface">01</span>
+<span class="text-[10px] text-outline uppercase">Pending Actions</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors cursor-pointer">open_in_new</span>
+</div>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+<!-- Pending Approvals Queue -->
+<section class="flex flex-col h-full min-h-[400px]">
+<div class="flex items-center justify-between mb-3 px-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">rule</span>
+                                Pending Approvals
+                            </h2>
+<button class="text-body-sm text-primary hover:underline">Approve All</button>
+</div>
+<div class="bg-surface-container-low border border-outline-variant flex-1 overflow-hidden flex flex-col">
+<div class="overflow-y-auto">
+<!-- Approval Item -->
+<div class="flex items-center gap-4 p-3 border-b border-outline-variant hover:bg-surface-container transition-colors group">
+<div class="flex items-center justify-center w-10 h-10 bg-surface-container-highest border border-outline-variant">
+<span class="material-symbols-outlined text-primary">mail</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-caps text-[10px] text-outline">EMAIL_AGENT</span>
+<span class="bg-surface-container-highest text-outline px-1.5 py-0.5 rounded-sm text-[10px] font-bold">REQ-882</span>
+</div>
+<p class="text-body-sm text-on-surface truncate">Send summary email to research team regarding project 'X-RAY'.</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<span class="bg-[#fbbf24]/10 text-[#fbbf24] border border-[#fbbf24]/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm">Confirm</span>
+<div class="flex gap-1">
+<button class="bg-primary text-on-primary font-bold text-[11px] px-3 py-1 rounded-sm hover:brightness-110 transition-all">Approve</button>
+<button class="bg-transparent border border-outline-variant text-on-surface-variant font-bold text-[11px] px-3 py-1 rounded-sm hover:border-outline hover:text-on-surface transition-all">Details</button>
+</div>
+</div>
+</div>
+<!-- Approval Item (High Risk) -->
+<div class="flex items-center gap-4 p-3 border-b border-outline-variant hover:bg-surface-container transition-colors group">
+<div class="flex items-center justify-center w-10 h-10 bg-surface-container-highest border border-outline-variant">
+<span class="material-symbols-outlined text-primary">folder_delete</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-caps text-[10px] text-outline">FILES_AGENT</span>
+<span class="bg-surface-container-highest text-outline px-1.5 py-0.5 rounded-sm text-[10px] font-bold">REQ-891</span>
+</div>
+<p class="text-body-sm text-on-surface truncate">Permanently purge local cache directory 'tmp_models_v2'.</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<span class="bg-error/10 text-error border border-error/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm">High-risk</span>
+<div class="flex gap-1">
+<button class="bg-primary text-on-primary font-bold text-[11px] px-3 py-1 rounded-sm hover:brightness-110 transition-all">Approve</button>
+<button class="bg-transparent border border-outline-variant text-on-surface-variant font-bold text-[11px] px-3 py-1 rounded-sm hover:border-outline hover:text-on-surface transition-all">Details</button>
+</div>
+</div>
+</div>
+<!-- Approval Item -->
+<div class="flex items-center gap-4 p-3 border-b border-outline-variant hover:bg-surface-container transition-colors group">
+<div class="flex items-center justify-center w-10 h-10 bg-surface-container-highest border border-outline-variant">
+<span class="material-symbols-outlined text-primary">event_busy</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-caps text-[10px] text-outline">CALENDAR_AGENT</span>
+<span class="bg-surface-container-highest text-outline px-1.5 py-0.5 rounded-sm text-[10px] font-bold">REQ-904</span>
+</div>
+<p class="text-body-sm text-on-surface truncate">Reschedule conflicting meeting 'Quarterly Review' to Friday 10AM.</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<span class="bg-[#fbbf24]/10 text-[#fbbf24] border border-[#fbbf24]/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm">Confirm</span>
+<div class="flex gap-1">
+<button class="bg-primary text-on-primary font-bold text-[11px] px-3 py-1 rounded-sm hover:brightness-110 transition-all">Approve</button>
+<button class="bg-transparent border border-outline-variant text-on-surface-variant font-bold text-[11px] px-3 py-1 rounded-sm hover:border-outline hover:text-on-surface transition-all">Details</button>
+</div>
+</div>
+</div>
+<!-- Approval Item -->
+<div class="flex items-center gap-4 p-3 border-b border-outline-variant hover:bg-surface-container transition-colors group">
+<div class="flex items-center justify-center w-10 h-10 bg-surface-container-highest border border-outline-variant">
+<span class="material-symbols-outlined text-primary">drafts</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-caps text-[10px] text-outline">EMAIL_AGENT</span>
+<span class="bg-surface-container-highest text-outline px-1.5 py-0.5 rounded-sm text-[10px] font-bold">REQ-910</span>
+</div>
+<p class="text-body-sm text-on-surface truncate">Draft follow-up response to 'Client Feedback' thread.</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<span class="bg-on-surface-variant/10 text-outline border border-outline-variant px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm">Read-only</span>
+<div class="flex gap-1">
+<button class="bg-primary text-on-primary font-bold text-[11px] px-3 py-1 rounded-sm hover:brightness-110 transition-all">Approve</button>
+<button class="bg-transparent border border-outline-variant text-on-surface-variant font-bold text-[11px] px-3 py-1 rounded-sm hover:border-outline hover:text-on-surface transition-all">Details</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity Feed -->
+<section class="flex flex-col h-full min-h-[400px]">
+<div class="flex items-center justify-between mb-3 px-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">receipt_long</span>
+                                Recent Activity
+                            </h2>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-outline text-[18px] cursor-pointer hover:text-primary">filter_list</span>
+<span class="material-symbols-outlined text-outline text-[18px] cursor-pointer hover:text-primary">download</span>
+</div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant flex-1 overflow-hidden font-mono-sm text-mono-sm p-4 leading-relaxed">
+<div class="space-y-1.5 overflow-y-auto h-full pr-2">
+<div class="flex gap-3">
+<span class="text-outline shrink-0">[14:22:04]</span>
+<span class="text-primary shrink-0">[OBS-5102]</span>
+<span class="text-on-surface">EMAIL_AGENT: Detected new incoming message from root@internal.net</span>
+</div>
+<div class="flex gap-3">
+<span class="text-outline shrink-0">[14:22:03]</span>
+<span class="text-primary shrink-0">[OBS-5101]</span>
+<span class="text-on-surface">FILES_AGENT: Sync complete. 12 files moved to 'ARCHIVE_2023'</span>
+</div>
+<div class="flex gap-3">
+<span class="text-outline shrink-0">[14:21:55]</span>
+<span class="text-primary shrink-0">[OBS-5098]</span>
+<span class="text-on-surface">SYSTEM: Internal temperature stable at 34°C. Fan speeds normal.</span>
+</div>
+<div class="flex gap-3 opacity-80">
+<span class="text-outline shrink-0">[14:21:42]</span>
+<span class="text-primary shrink-0">[OBS-5095]</span>
+<span class="text-on-surface">CALENDAR_AGENT: Confirmed entry 'Team Standup' for 09:00:00.</span>
+</div>
+<div class="flex gap-3 opacity-70">
+<span class="text-outline shrink-0">[14:21:30]</span>
+<span class="text-primary shrink-0">[OBS-5092]</span>
+<span class="text-on-surface">EMAIL_AGENT: Sent draft 'RE: Inquiry' to operator review queue.</span>
+</div>
+<div class="flex gap-3 opacity-60">
+<span class="text-outline shrink-0">[14:21:22]</span>
+<span class="text-primary shrink-0">[OBS-5089]</span>
+<span class="text-on-surface">SYSTEM: Periodic health check passed. Heartbeat active.</span>
+</div>
+<div class="flex gap-3 opacity-50">
+<span class="text-outline shrink-0">[14:21:10]</span>
+<span class="text-primary shrink-0">[OBS-5084]</span>
+<span class="text-on-surface">FILES_AGENT: Scanned '/volumes/data' for large temporary assets.</span>
+</div>
+<div class="flex gap-3 opacity-40">
+<span class="text-outline shrink-0">[14:21:05]</span>
+<span class="text-primary shrink-0">[OBS-5081]</span>
+<span class="text-on-surface">SYSTEM: Session authenticated for OPERATOR_01.</span>
+</div>
+<div class="flex gap-3 opacity-30">
+<span class="text-outline shrink-0">[14:20:58]</span>
+<span class="text-primary shrink-0">[OBS-5079]</span>
+<span class="text-on-surface">CALENDAR_AGENT: Monitoring 4 upcoming high-priority events.</span>
+</div>
+<div class="flex gap-3 opacity-20">
+<span class="text-outline shrink-0">[14:20:44]</span>
+<span class="text-primary shrink-0">[OBS-5075]</span>
+<span class="text-on-surface">FILES_AGENT: Initialized new watcher for research/exports.</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Atmospheric Background Shader Placeholder (Subtle) -->
+<div class="fixed inset-0 pointer-events-none opacity-5 z-[-1]">
+<!-- This would be replaced with a real shader background if available -->
+<div class="w-full h-full bg-[radial-gradient(circle_at_50%_50%,#3cddc7,transparent_70%)]"></div>
+</div>
+</main>
+</div>
+</div>
+<script>
+        // Micro-interaction for approval buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.96)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simulating log activity
+        const logContainer = document.querySelector('.space-y-1\\.5');
+        const updateLogs = () => {
+            const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+            const id = Math.floor(Math.random() * 9000) + 1000;
+            const agents = ['SYSTEM', 'EMAIL_AGENT', 'FILES_AGENT', 'CALENDAR_AGENT'];
+            const events = [
+                'Heartbeat telemetry sent to central node.',
+                'Background indexing completed for primary volume.',
+                'Watching for incoming requests on port 8080.',
+                'Refined natural language parsing for user command.',
+                'Cache invalidated for stale metadata objects.'
+            ];
+            
+            const agent = agents[Math.floor(Math.random() * agents.length)];
+            const event = events[Math.floor(Math.random() * events.length)];
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = 'flex gap-3 animate-pulse';
+            logEntry.innerHTML = `
+                <span class="text-outline shrink-0">[${time}]</span>
+                <span class="text-primary shrink-0">[OBS-${id}]</span>
+                <span class="text-on-surface">${agent}: ${event}</span>
+            `;
+            
+            logContainer.prepend(logEntry);
+            if (logContainer.children.length > 25) {
+                logContainer.lastElementChild.remove();
+            }
+            
+            // Re-apply opacities
+            Array.from(logContainer.children).forEach((child, index) => {
+                const opacity = Math.max(0.1, 1 - (index * 0.05));
+                child.style.opacity = opacity;
+                if (index > 0) child.classList.remove('animate-pulse');
+            });
+        };
+
+        setInterval(updateLogs, 8000);
+    </script>
+</body></html>

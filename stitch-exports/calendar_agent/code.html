@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Metis | Calendar Agent</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0e1513;
+            color: #dde4e1;
+            overflow: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #161d1b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3c4a46;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #859490;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-container": "#00574d",
+                      "on-secondary-container": "#8bbfb5",
+                      "on-primary": "#003731",
+                      "primary-fixed": "#62fae3",
+                      "inverse-on-surface": "#2b3230",
+                      "background": "#0e1513",
+                      "surface-container-low": "#161d1b",
+                      "surface": "#0e1513",
+                      "on-tertiary": "#4b2800",
+                      "inverse-surface": "#dde4e1",
+                      "surface-variant": "#2f3634",
+                      "on-surface-variant": "#bacac5",
+                      "tertiary-fixed-dim": "#ffb875",
+                      "inverse-primary": "#006b5f",
+                      "on-primary-fixed": "#00201c",
+                      "on-tertiary-container": "#744000",
+                      "secondary-fixed": "#b8ede2",
+                      "surface-dim": "#0e1513",
+                      "on-error-container": "#ffdad6",
+                      "surface-bright": "#333b39",
+                      "secondary": "#9cd1c6",
+                      "surface-container": "#1a211f",
+                      "surface-container-highest": "#2f3634",
+                      "surface-container-high": "#242b2a",
+                      "on-background": "#dde4e1",
+                      "tertiary": "#ffd1aa",
+                      "surface-tint": "#3cddc7",
+                      "error-container": "#93000a",
+                      "on-surface": "#dde4e1",
+                      "tertiary-fixed": "#ffdcc0",
+                      "on-primary-fixed-variant": "#005047",
+                      "outline": "#859490",
+                      "on-error": "#690005",
+                      "on-tertiary-fixed": "#2d1600",
+                      "primary": "#57f1db",
+                      "outline-variant": "#3c4a46",
+                      "error": "#ffb4ab",
+                      "secondary-fixed-dim": "#9cd1c6",
+                      "on-secondary-fixed-variant": "#1a4f47",
+                      "primary-container": "#2dd4bf",
+                      "primary-fixed-dim": "#3cddc7",
+                      "tertiary-container": "#ffac5a",
+                      "on-secondary-fixed": "#00201c",
+                      "on-tertiary-fixed-variant": "#6b3b00",
+                      "surface-container-lowest": "#09100e",
+                      "on-secondary": "#003731",
+                      "secondary-container": "#1a4f47"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "container-padding": "12px",
+                      "gutter": "8px",
+                      "component-gap": "4px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "mono-md": ["JetBrains Mono"],
+                      "headline-sm": ["Inter"],
+                      "mono-sm": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "mono-md": ["13px", {"lineHeight": "20px", "fontWeight": "450"}],
+                      "headline-sm": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "mono-sm": ["11px", {"lineHeight": "16px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="flex h-screen w-full font-body-md text-on-background">
+<!-- SideNavBar -->
+<aside class="w-64 h-screen border-r border-outline-variant flex flex-col bg-background shrink-0">
+<div class="p-6 border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-sm bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Metis</h1>
+<p class="text-[10px] uppercase tracking-widest text-outline">v2.4.0-stable</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-4">
+<div class="px-2 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150 rounded-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+<span class="font-body-md text-body-md">Main Console</span>
+</a>
+<!-- Active State for Calendar Agent -->
+<a class="flex items-center gap-3 px-4 py-2 text-primary border-r-2 border-primary bg-surface-container-high transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-body-md text-body-md">Calendar Agent</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150 rounded-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+<span class="font-body-md text-body-md">Email Agent</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150 rounded-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">folder_open</span>
+<span class="font-body-md text-body-md">Files Agent</span>
+</a>
+</div>
+</nav>
+<div class="p-4 border-t border-outline-variant">
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150 rounded-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150 rounded-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">code</span>
+<span class="font-body-md text-body-md">Terminal</span>
+</a>
+</div>
+<div class="mt-4 px-4 py-3 bg-surface-container-low border border-outline-variant rounded-sm flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center overflow-hidden">
+<img alt="Metis Operator Avatar" class="w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSTQVrL8WfRXN1oMUa614S3AbIRqsrjzrsPYARRRVfk-fP5CrBJce53CMHqEBaeQlcDjtbqJaPg0VgTztQyt3MxdBEoGol9SBQyUaANJ03cBAVlGperNrhyw4DsL2b9HsWKR2itKevf9dIIL2pEAag1WCQAgJtEGp56-oedSl3nLYLBzrUViCIImujvuao_TjMOkI-P4uZWA1QgFAgNmhbWk8DQz6z3KPr0Smt8QuvH6hTC8xZw05gRQeUZPq1jRw-PJcLz2TAmSg"/>
+</div>
+<div class="min-w-0">
+<p class="text-body-sm font-semibold truncate">Operator_01</p>
+<p class="text-[10px] text-outline truncate uppercase">L4 Access</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center px-4 w-full h-12 sticky top-0 z-50 bg-surface border-b border-outline-variant shrink-0">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-[18px] text-outline">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant h-8 pl-8 pr-3 text-body-sm focus:border-primary focus:ring-0 rounded-sm transition-all" placeholder="Search calendar logs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex items-center px-2 py-1 gap-1.5 text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-mono-sm text-mono-sm uppercase tracking-tighter">Agent Active</span>
+</div>
+<div class="h-4 w-[1px] bg-outline-variant mx-2"></div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-transform duration-100 active:scale-95">
+<span class="material-symbols-outlined">monitor_heart</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-transform duration-100 active:scale-95">
+<span class="material-symbols-outlined">group</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-transform duration-100 active:scale-95 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-1.5 h-1.5 bg-error rounded-full"></span>
+</button>
+<button class="ml-2 px-3 h-8 bg-primary-container text-on-primary-container font-body-sm font-bold rounded-sm hover:opacity-90 transition-opacity">
+                    Pending Approvals
+                </button>
+</div>
+</header>
+<!-- Scrollable Canvas -->
+<div class="flex-1 overflow-y-auto p-gutter bg-background">
+<div class="grid grid-cols-12 gap-gutter h-full">
+<!-- Left Column: Proposed Schedule Optimization -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-gutter">
+<div class="bg-surface-container border border-outline-variant p-4 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Schedule Optimization</h2>
+<p class="text-body-sm text-on-surface-variant">Metis Engine: Analysis of 14 conflict points in the upcoming 72 hours.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-mono-sm border border-outline-variant hover:bg-surface-container-high transition-colors">EXPORT_JSON</button>
+<button class="px-3 py-1 text-mono-sm bg-primary text-on-primary font-bold transition-colors">APPLY_ALL</button>
+</div>
+</div>
+<!-- Side-by-Side Comparison -->
+<div class="grid grid-cols-2 gap-px bg-outline-variant border border-outline-variant rounded-sm overflow-hidden">
+<!-- Current Calendar -->
+<div class="bg-surface-container-low p-4">
+<div class="flex items-center gap-2 mb-4">
+<span class="text-label-caps text-outline bg-surface-container-highest px-2 py-0.5 rounded-full uppercase">Current State</span>
+<span class="font-mono-sm text-mono-sm text-error">3 CONFLICTS</span>
+</div>
+<div class="space-y-2">
+<div class="bg-surface-container-highest border-l-2 border-outline-variant p-3">
+<div class="flex justify-between text-mono-sm text-outline mb-1">
+<span>09:00 - 10:30</span>
+<span>CONF_A</span>
+</div>
+<p class="text-body-sm font-semibold">Stakeholder Weekly Sync</p>
+</div>
+<div class="bg-error-container/20 border-l-2 border-error p-3">
+<div class="flex justify-between text-mono-sm text-error mb-1">
+<span>10:30 - 11:30</span>
+<span>CONFLICT</span>
+</div>
+<p class="text-body-sm font-semibold">Project X Deep Dive</p>
+<p class="text-[11px] text-on-error-container mt-1">Overlaps with: Q3 Planning</p>
+</div>
+<div class="bg-surface-container-highest border-l-2 border-outline-variant p-3 opacity-50">
+<div class="flex justify-between text-mono-sm text-outline mb-1">
+<span>13:00 - 14:00</span>
+<span>FREE</span>
+</div>
+<p class="text-body-sm italic">Available Window</p>
+</div>
+</div>
+</div>
+<!-- Proposed Calendar -->
+<div class="bg-surface-container-low p-4">
+<div class="flex items-center gap-2 mb-4">
+<span class="text-label-caps text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase">Proposed (v2.1)</span>
+<span class="font-mono-sm text-mono-sm text-primary">0 CONFLICTS</span>
+</div>
+<div class="space-y-2">
+<div class="bg-surface-container-highest border-l-2 border-primary-container p-3">
+<div class="flex justify-between text-mono-sm text-primary mb-1">
+<span>09:00 - 10:00</span>
+<span>OPTIMIZED</span>
+</div>
+<p class="text-body-sm font-semibold">Stakeholder Weekly Sync</p>
+</div>
+<div class="bg-primary/5 border-l-2 border-primary p-3">
+<div class="flex justify-between text-mono-sm text-primary mb-1">
+<span>10:00 - 11:30</span>
+<span>RESOLVED</span>
+</div>
+<p class="text-body-sm font-semibold">Project X Deep Dive</p>
+<div class="flex gap-1 mt-1">
+<span class="text-[10px] bg-primary/20 text-primary px-1 font-mono-sm">+15m Gap</span>
+</div>
+</div>
+<div class="bg-primary/5 border-l-2 border-primary p-3">
+<div class="flex justify-between text-mono-sm text-primary mb-1">
+<span>11:45 - 12:45</span>
+<span>MOVED</span>
+</div>
+<p class="text-body-sm font-semibold">Q3 Planning</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Observation Log (Bottom) -->
+<div class="bg-surface-container border border-outline-variant flex-1 overflow-hidden flex flex-col">
+<div class="px-4 py-2 border-b border-outline-variant bg-surface-container-high flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-outline uppercase">Observation Log</span>
+<span class="font-mono-sm text-mono-sm text-primary">STREAMING_LIVE</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 font-mono-sm text-mono-sm text-on-surface-variant space-y-1">
+<p><span class="text-outline">[2023-10-24 08:42:12]</span> <span class="text-primary">SCAN</span> Initiating event crawl for user_prime...</p>
+<p><span class="text-outline">[2023-10-24 08:42:15]</span> <span class="text-primary">IDENT</span> Found 42 calendar entries in Gmail Cluster.</p>
+<p><span class="text-outline">[2023-10-24 08:42:18]</span> <span class="text-error">WARN</span> Direct conflict detected at 10:30 UTC.</p>
+<p><span class="text-outline">[2023-10-24 08:42:19]</span> <span class="text-primary">EXEC</span> Heuristic engine calculating optimal gap distribution...</p>
+<p><span class="text-outline">[2023-10-24 08:42:21]</span> <span class="text-on-surface">META</span> Event_UID: 99x-z2 | Status: To_Be_Rescheduled</p>
+<p><span class="text-outline">[2023-10-24 08:42:23]</span> <span class="text-primary">SCAN</span> Analyzing participant availability for 'Project X Deep Dive'</p>
+<p><span class="text-outline">[2023-10-24 08:42:25]</span> <span class="text-primary">FOUND</span> 3/4 participants have 11:30 free.</p>
+<p><span class="text-outline">[2023-10-24 08:42:28]</span> <span class="text-on-surface">META</span> Delta_Applied: +30m Shift</p>
+<p><span class="text-outline">[2023-10-24 08:42:30]</span> <span class="text-primary">SCAN</span> Waiting for operator validation on high-risk shifts...</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Conflict Resolution List -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-container border border-outline-variant h-full flex flex-col">
+<div class="p-4 border-b border-outline-variant">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Action Required</h3>
+<p class="text-body-sm text-on-surface-variant">Human validation required for significant shifts.</p>
+</div>
+<div class="flex-1 overflow-y-auto">
+<!-- Resolution Item -->
+<div class="p-4 border-b border-outline-variant hover:bg-surface-container-high transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-caps bg-tertiary-container/20 text-tertiary px-2 py-0.5 rounded-full uppercase">Priority_High</span>
+<span class="font-mono-sm text-mono-sm text-outline">ID_882</span>
+</div>
+<h4 class="text-body-md font-bold mb-1">Resolve meeting overlap with Project X</h4>
+<p class="text-body-sm text-on-surface-variant mb-4">Metis proposes shifting 'Q3 Planning' to 14:00 to clear the 11:30 slot.</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-amber-400 text-black font-bold py-2 text-body-sm rounded-sm hover:bg-amber-300 transition-colors">Confirm</button>
+<button class="px-3 py-2 border border-outline-variant text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Resolution Item -->
+<div class="p-4 border-b border-outline-variant hover:bg-surface-container-high transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-caps bg-surface-container-highest text-outline px-2 py-0.5 rounded-full uppercase">Batch_Move</span>
+<span class="font-mono-sm text-mono-sm text-outline">ID_883</span>
+</div>
+<h4 class="text-body-md font-bold mb-1">Consolidate Morning Deep-Work</h4>
+<p class="text-body-sm text-on-surface-variant mb-4">Relocate 3 small admin tasks to Tuesday to create a 4-hour focus block.</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-amber-400 text-black font-bold py-2 text-body-sm rounded-sm hover:bg-amber-300 transition-colors">Confirm</button>
+<button class="px-3 py-2 border border-outline-variant text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Resolution Item -->
+<div class="p-4 border-b border-outline-variant hover:bg-surface-container-high transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-caps bg-error-container/20 text-error px-2 py-0.5 rounded-full uppercase">Conflict_Found</span>
+<span class="font-mono-sm text-mono-sm text-outline">ID_885</span>
+</div>
+<h4 class="text-body-md font-bold mb-1">Flight CX882 Arrival vs. Sync</h4>
+<p class="text-body-sm text-on-surface-variant mb-4">Travel time to office exceeds availability. Metis suggests switching to Remote.</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-amber-400 text-black font-bold py-2 text-body-sm rounded-sm hover:bg-amber-300 transition-colors">Confirm</button>
+<button class="px-3 py-2 border border-outline-variant text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Statistics / Health -->
+<div class="p-4 bg-surface-container-high border-t border-outline-variant">
+<div class="flex justify-between items-center mb-2">
+<span class="text-label-caps text-outline uppercase">Agent Health</span>
+<span class="text-mono-sm text-primary">99.8%</span>
+</div>
+<div class="w-full bg-outline-variant h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[99.8%]"></div>
+</div>
+<div class="mt-4 grid grid-cols-2 gap-2">
+<div class="bg-surface p-2 border border-outline-variant text-center">
+<p class="text-label-caps text-outline uppercase">Scanned</p>
+<p class="text-body-md font-bold">1,242</p>
+</div>
+<div class="bg-surface p-2 border border-outline-variant text-center">
+<p class="text-label-caps text-outline uppercase">Optimized</p>
+<p class="text-body-md font-bold">84</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interaction for log streaming effect
+        const logContainer = document.querySelector('.overflow-y-auto.p-4.font-mono-sm');
+        if (logContainer) {
+            setInterval(() => {
+                const logs = [
+                    "[2023-10-24 08:42:35] <span class='text-primary'>POLL</span> Refreshing weather data for external meeting...",
+                    "[2023-10-24 08:42:37] <span class='text-on-surface'>META</span> Latency_Check: 14ms",
+                    "[2023-10-24 08:42:40] <span class='text-primary'>SCAN</span> Parsing attached PDF for 'Project X' context...",
+                    "[2023-10-24 08:42:42] <span class='text-on-surface'>READY</span> Waiting for operator input on ID_885"
+                ];
+                const newLog = document.createElement('p');
+                newLog.innerHTML = logs[Math.floor(Math.random() * logs.length)];
+                logContainer.appendChild(newLog);
+                if (logContainer.children.length > 30) {
+                    logContainer.removeChild(logContainer.children[0]);
+                }
+                logContainer.scrollTop = logContainer.scrollHeight;
+            }, 5000);
+        }
+
+        // Toggle focus on resolution items
+        document.querySelectorAll('.group').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.group').forEach(i => i.classList.remove('bg-surface-container-highest'));
+                item.classList.add('bg-surface-container-highest');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,30 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/metis-core",
+  "crates/metis-llm",
+  "crates/metis-log",
+  "crates/metis-gate",
+  "crates/metis-agents",
+  "src-tauri",
+]
+
+[workspace.dependencies]
+serde       = { version = "1", features = ["derive"] }
+serde_json  = "1"
+tokio       = { version = "1", features = ["rt-multi-thread", "macros", "sync"] }
+async-trait = "0.1"
+thiserror   = "1"
+anyhow      = "1"
+sha2        = "0.10"
+time        = { version = "0.3", features = ["serde", "formatting"] }
+uuid        = { version = "1", features = ["v4", "serde"] }
+keyring     = "2"
+reqwest     = { version = "0.12", features = ["json"] }
+
+# Internal crates referenced by path so members can depend on each other.
+metis-core   = { path = "crates/metis-core" }
+metis-llm    = { path = "crates/metis-llm" }
+metis-log    = { path = "crates/metis-log" }
+metis-gate   = { path = "crates/metis-gate" }
+metis-agents = { path = "crates/metis-agents" }

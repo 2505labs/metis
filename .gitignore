@@ -1,0 +1,20 @@
+# Rust
+/target
+**/target
+
+# Node
+node_modules
+ui/dist
+.pnpm-store
+
+# Tauri
+src-tauri/gen
+src-tauri/target
+
+# OS / editor
+.DS_Store
+*.log
+
+# Metis runtime data (event log, etc. — never commit)
+*.jsonl
+/data

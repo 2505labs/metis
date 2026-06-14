@@ -1,0 +1,23 @@
+# Metis Product Requirements
+
+## Overview
+Local-first desktop agent app. Runs three assistant agents: Calendar, Email, Files. 
+Agents observe data and propose actions; human approval required for any write operations.
+
+## Core Screens to Generate
+1. **Main Console / Dashboard**: Overview of all agents, recent observations, and pending approvals.
+2. **Calendar Agent**: Detailed view of proposed calendar changes, conflict resolution, and schedule optimization.
+3. **Email Agent**: Draft proposals, automated sorting, and high-priority action items requiring approval.
+4. **Files Agent**: Local file system observations, organization proposals, and security/access audits.
+
+## Design Constraints
+- **Device**: Desktop window.
+- **Theme**: Dark, slate/zinc.
+- **Accent**: Cool teal.
+- **Vibe**: Trustworthy, technical, "operator console."
+- **Badges**:
+    - Read-only (Muted)
+    - Confirm (Amber)
+    - High-risk (Red)
+- **No-go**: No hero images, no marketing fluff, no emoji, no heavy shadows. Use subtle borders.
+- **Typography**: Sans for UI, Mono for data (IDs, hashes).

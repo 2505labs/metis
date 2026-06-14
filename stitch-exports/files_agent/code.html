@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Metis - Files Agent</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#00574d",
+                        "on-secondary-container": "#8bbfb5",
+                        "on-primary": "#003731",
+                        "primary-fixed": "#62fae3",
+                        "inverse-on-surface": "#2b3230",
+                        "background": "#0e1513",
+                        "surface-container-low": "#161d1b",
+                        "surface": "#0e1513",
+                        "on-tertiary": "#4b2800",
+                        "inverse-surface": "#dde4e1",
+                        "surface-variant": "#2f3634",
+                        "on-surface-variant": "#bacac5",
+                        "tertiary-fixed-dim": "#ffb875",
+                        "inverse-primary": "#006b5f",
+                        "on-primary-fixed": "#00201c",
+                        "on-tertiary-container": "#744000",
+                        "secondary-fixed": "#b8ede2",
+                        "surface-dim": "#0e1513",
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#333b39",
+                        "secondary": "#9cd1c6",
+                        "surface-container": "#1a211f",
+                        "surface-container-highest": "#2f3634",
+                        "surface-container-high": "#242b2a",
+                        "on-background": "#dde4e1",
+                        "tertiary": "#ffd1aa",
+                        "surface-tint": "#3cddc7",
+                        "error-container": "#93000a",
+                        "on-surface": "#dde4e1",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-primary-fixed-variant": "#005047",
+                        "outline": "#859490",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#2d1600",
+                        "primary": "#57f1db",
+                        "outline-variant": "#3c4a46",
+                        "error": "#ffb4ab",
+                        "secondary-fixed-dim": "#9cd1c6",
+                        "on-secondary-fixed-variant": "#1a4f47",
+                        "primary-container": "#2dd4bf",
+                        "primary-fixed-dim": "#3cddc7",
+                        "tertiary-container": "#ffac5a",
+                        "on-secondary-fixed": "#00201c",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "surface-container-lowest": "#09100e",
+                        "on-secondary": "#003731",
+                        "secondary-container": "#1a4f47"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-padding": "12px",
+                        "gutter": "8px",
+                        "component-gap": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "mono-md": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"],
+                        "mono-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "mono-md": ["13px", {"lineHeight": "20px", "fontWeight": "450"}],
+                        "headline-sm": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "mono-sm": ["11px", {"lineHeight": "16px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0e1513;
+            color: #dde4e1;
+            overflow: hidden;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0e1513; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3c4a46; border-radius: 2px; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+            font-size: 18px;
+        }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+    </style>
+</head>
+<body class="flex h-screen w-screen font-body-md text-body-md overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="w-64 h-screen border-r border-outline-variant flex flex-col bg-background shrink-0">
+<div class="p-4 flex flex-col gap-1">
+<div class="flex items-center gap-2 mb-6">
+<div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Metis</h1>
+<p class="text-[10px] font-mono-sm uppercase tracking-widest text-outline">v2.4.0-stable</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<!-- Navigation Tabs -->
+<a class="flex items-center gap-3 px-3 py-2 transition-colors duration-150 text-on-surface-variant hover:text-on-surface hover:bg-surface-container" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-body-md">Main Console</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 transition-colors duration-150 text-on-surface-variant hover:text-on-surface hover:bg-surface-container" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-body-md">Calendar Agent</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 transition-colors duration-150 text-on-surface-variant hover:text-on-surface hover:bg-surface-container" href="#">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="font-body-md">Email Agent</span>
+</a>
+<!-- Active Tab: Files Agent -->
+<a class="flex items-center gap-3 px-3 py-2 transition-colors duration-150 text-primary border-r-2 border-primary bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="folder_open" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+<span class="font-body-md">Files Agent</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-4 border-t border-outline-variant flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 transition-colors duration-150 text-on-surface-variant hover:text-on-surface hover:bg-surface-container" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 transition-colors duration-150 text-on-surface-variant hover:text-on-surface hover:bg-surface-container" href="#">
+<span class="material-symbols-outlined" data-icon="code">code</span>
+<span class="font-body-md">Terminal</span>
+</a>
+<div class="mt-4 flex items-center gap-3 px-3 py-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest border border-outline-variant overflow-hidden">
+<img alt="Metis Operator Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaPY5zCJtegSfHwEoN0Yoe5wwtrs7RqKCLHDLlntwkAdCJphYDPrVeKcNgcnclPBD3XAULW8mM9W75Eo5GlkSh1xvYtVuGLZvXB6k6Li5G_fETHrKbqc9Bq-hkPUToJ72P9SgpMxSdRgRdGRl0XRVv5eAiSRZXtRtHAVpVhHYFy8u1htpwWfLMJjjCVKOq6uZh4-EN5Lns3joBWsb8Bo5FryhPyHyPxfFcySr1-3OqFqeD-k13c4eiPPlwsl8F_dYvR87xMSA95eU"/>
+</div>
+<div class="flex flex-col">
+<span class="text-[11px] font-bold text-on-surface">OPERATOR_01</span>
+<span class="text-[9px] text-primary">AUTHORIZED</span>
+</div>
+</div>
+</div>
+</aside>
+<div class="flex flex-col flex-1 min-w-0 h-screen overflow-hidden">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center px-4 w-full h-12 bg-surface border-b border-outline-variant sticky top-0 z-50">
+<div class="flex items-center gap-4 flex-1">
+<div class="flex items-center gap-2 px-2 py-1 bg-surface-container-low border border-outline-variant w-full max-w-md">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-full placeholder:text-outline-variant" placeholder="Search filesystem..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-3 py-1 bg-primary text-on-primary font-bold text-[12px] hover:scale-95 transition-transform duration-100">
+<span class="material-symbols-outlined text-[16px]" data-icon="notifications_active">notifications_active</span>
+                    Pending Approvals
+                </button>
+<div class="flex items-center gap-1 border-l border-outline-variant pl-3">
+<button class="p-1 hover:text-primary transition-transform duration-100 scale-95"><span class="material-symbols-outlined" data-icon="monitor_heart">monitor_heart</span></button>
+<button class="p-1 hover:text-primary transition-transform duration-100 scale-95"><span class="material-symbols-outlined" data-icon="group">group</span></button>
+<button class="p-1 hover:text-primary transition-transform duration-100 scale-95"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto custom-scrollbar p-gutter bg-background flex flex-col gap-gutter">
+<!-- Header Section -->
+<section class="flex items-center justify-between mb-2">
+<div>
+<h2 class="font-headline-sm text-headline-sm font-bold">Filesystem Intelligence</h2>
+<p class="text-body-sm text-on-surface-variant flex items-center gap-2">
+<span class="status-dot bg-primary"></span> 1.4M indexed entries | Local-first synchronization active
+                    </p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-outline-variant text-body-sm flex items-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span> Re-index
+                    </button>
+<button class="px-3 py-1 border border-outline-variant text-body-sm flex items-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="download">download</span> Export Logs
+                    </button>
+</div>
+</section>
+<!-- Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left Pane: File System Observations -->
+<div class="col-span-8 flex flex-col gap-gutter">
+<div class="border border-outline-variant bg-surface-container-low flex flex-col h-full overflow-hidden">
+<div class="p-3 border-b border-outline-variant flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">File System Observations</span>
+<span class="text-mono-sm text-primary">LIVE_STREAM_ACTIVE</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container border-b border-outline-variant">
+<th class="px-3 py-2 font-label-caps text-label-caps text-outline">TIMESTAMP</th>
+<th class="px-3 py-2 font-label-caps text-label-caps text-outline">ACTION</th>
+<th class="px-3 py-2 font-label-caps text-label-caps text-outline">FILE PATH</th>
+<th class="px-3 py-2 font-label-caps text-label-caps text-outline">SHA-256 HASH</th>
+</tr>
+</thead>
+<tbody class="font-mono-sm text-[12px]">
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container transition-colors">
+<td class="px-3 py-2 text-on-surface-variant">14:02:11.45</td>
+<td class="px-3 py-2"><span class="text-primary">MODIFIED</span></td>
+<td class="px-3 py-2 text-on-surface truncate max-w-[240px]">/usr/local/bin/metis-core-v2</td>
+<td class="px-3 py-2 text-outline">8f2c...4d1a</td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container transition-colors">
+<td class="px-3 py-2 text-on-surface-variant">14:02:08.12</td>
+<td class="px-3 py-2"><span class="text-secondary">CREATED</span></td>
+<td class="px-3 py-2 text-on-surface truncate max-w-[240px]">~/documents/reports/daily_telemetry.log</td>
+<td class="px-3 py-2 text-outline">3a91...e9b2</td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container transition-colors">
+<td class="px-3 py-2 text-on-surface-variant">14:01:55.33</td>
+<td class="px-3 py-2"><span class="text-tertiary">ACCESSED</span></td>
+<td class="px-3 py-2 text-on-surface truncate max-w-[240px]">/etc/ssh/sshd_config</td>
+<td class="px-3 py-2 text-outline">c104...b014</td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container transition-colors">
+<td class="px-3 py-2 text-on-surface-variant">14:01:42.90</td>
+<td class="px-3 py-2"><span class="text-error">DELETED</span></td>
+<td class="px-3 py-2 text-on-surface truncate max-w-[240px]">~/tmp/session_cache_0442.tmp</td>
+<td class="px-3 py-2 text-outline">f022...918c</td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container transition-colors">
+<td class="px-3 py-2 text-on-surface-variant">14:01:30.01</td>
+<td class="px-3 py-2"><span class="text-primary">MODIFIED</span></td>
+<td class="px-3 py-2 text-on-surface truncate max-w-[240px]">~/projects/metis/src/agents/files.js</td>
+<td class="px-3 py-2 text-outline">aa49...1d5f</td>
+</tr>
+<tr class="border-b border-outline-variant/30 hover:bg-surface-container transition-colors">
+<td class="px-3 py-2 text-on-surface-variant">14:01:12.77</td>
+<td class="px-3 py-2"><span class="text-primary">MODIFIED</span></td>
+<td class="px-3 py-2 text-on-surface truncate max-w-[240px]">~/projects/metis/package.json</td>
+<td class="px-3 py-2 text-outline">98db...77a1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Pane: Organization & Audit -->
+<div class="col-span-4 flex flex-col gap-gutter">
+<!-- Organization Proposals -->
+<div class="border border-outline-variant bg-surface-container-low p-3">
+<div class="flex items-center justify-between mb-3 border-b border-outline-variant pb-2">
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Organization Proposals</span>
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="bg-background border border-outline-variant p-3 mb-3">
+<div class="flex items-start gap-3">
+<div class="bg-primary/10 p-2 text-primary">
+<span class="material-symbols-outlined" data-icon="drive_file_move">drive_file_move</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface text-body-sm">Archive Project Y Files</p>
+<p class="text-body-sm text-on-surface-variant mt-1">Move 42 files from <code class="text-primary text-[11px]">/work/current/Project-Y</code> to <code class="text-primary text-[11px]">/Archived/Project-Y</code>.</p>
+<div class="mt-4 flex gap-2">
+<button class="flex-1 px-3 py-1.5 bg-amber-500 text-black font-bold text-body-sm hover:opacity-90">Confirm</button>
+<button class="px-3 py-1.5 border border-outline-variant text-body-sm hover:bg-surface-container transition-colors">Dismiss</button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-background border border-outline-variant p-3">
+<div class="flex items-start gap-3">
+<div class="bg-error/10 p-2 text-error">
+<span class="material-symbols-outlined" data-icon="delete_sweep">delete_sweep</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface text-body-sm">Purge Large Temporary Blobs</p>
+<p class="text-body-sm text-on-surface-variant mt-1">Delete 12.4GB of system dump files older than 30 days.</p>
+<div class="mt-4">
+<button class="w-full px-3 py-1.5 bg-red-500 text-white font-bold text-body-sm hover:opacity-90">High-risk Approval</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Security/Access Audit -->
+<div class="border border-outline-variant bg-surface-container-low p-3 flex-1">
+<div class="flex items-center justify-between mb-3 border-b border-outline-variant pb-2">
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Security / Access Audit</span>
+<span class="material-symbols-outlined text-error" data-icon="gpp_maybe">gpp_maybe</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between p-2 bg-surface-container-highest border border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="status-dot bg-error"></span>
+<span class="text-body-sm font-mono-md">Unauthorized Path Read</span>
+</div>
+<span class="px-2 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full">HIGH-RISK</span>
+</div>
+<p class="text-mono-sm text-on-surface-variant pl-4 mb-2">Source: <span class="text-primary">process_7721 (unknown)</span><br/>Target: <span class="text-outline">/home/op/.ssh/id_rsa</span></p>
+<div class="flex items-center justify-between p-2 bg-surface-container-highest border border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="status-dot bg-amber-500"></span>
+<span class="text-body-sm font-mono-md">Mass File Move Detected</span>
+</div>
+<span class="px-2 py-0.5 bg-amber-500 text-black text-[10px] font-bold rounded-full">CAUTION</span>
+</div>
+<p class="text-mono-sm text-on-surface-variant pl-4">124 files moved to <span class="text-outline">/dev/null</span> via external shell.</p>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant mt-6">
+<div class="bg-[#1a211f] p-3 border-l-2 border-primary">
+<p class="text-[11px] font-bold text-primary mb-1">AUDIT SUMMARY</p>
+<p class="text-[12px] text-on-surface-variant leading-tight">No critical vulnerabilities detected in past 24h. Filesystem integrity score: 99.2%.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Telemetry Strip -->
+<footer class="mt-auto border border-outline-variant bg-surface-container-low px-4 py-2 flex items-center justify-between font-mono-sm text-[11px]">
+<div class="flex gap-6">
+<span class="text-outline uppercase tracking-widest">DISK_USAGE: <span class="text-on-surface">42% (512GB FREE)</span></span>
+<span class="text-outline uppercase tracking-widest">IOPS: <span class="text-primary">1,244 READ / 312 WRITE</span></span>
+<span class="text-outline uppercase tracking-widest">ENCRYPTION: <span class="text-secondary">AES-256-GCM</span></span>
+</div>
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1"><span class="status-dot bg-primary"></span> LOCAL_DAEMON: CONNECTED</span>
+<span class="flex items-center gap-1"><span class="status-dot bg-primary"></span> CLOUD_SYNC: PAUSED</span>
+</div>
+</footer>
+</main>
+</div>
+<!-- Background Atmospheric Effect (Shader) -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03] z-[-1]">
+
+</div>
+<script>
+        // Micro-interaction for table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.borderLeft = '2px solid #57f1db';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.borderLeft = 'none';
+            });
+        });
+
+        // Search highlight interaction
+        const searchInput = document.querySelector('input');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.replace('border-outline-variant', 'border-primary');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.replace('border-primary', 'border-outline-variant');
+        });
+    </script>
+</body></html>

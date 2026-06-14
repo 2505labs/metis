@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Step 0 baseline. Step 7a replaces this with the Stitch design system
+   (fonts: Inter, JetBrains Mono, Material Symbols; custom scrollbar). */
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Metis - Event Log</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;450&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#242b2a",
+                    "error": "#ffb4ab",
+                    "secondary": "#9cd1c6",
+                    "primary-container": "#2dd4bf",
+                    "inverse-primary": "#006b5f",
+                    "background": "#0e1513",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-highest": "#2f3634",
+                    "on-tertiary": "#4b2800",
+                    "tertiary-fixed-dim": "#ffb875",
+                    "primary": "#57f1db",
+                    "surface-dim": "#0e1513",
+                    "inverse-on-surface": "#2b3230",
+                    "secondary-fixed-dim": "#9cd1c6",
+                    "on-secondary-container": "#8bbfb5",
+                    "tertiary-container": "#ffac5a",
+                    "on-surface-variant": "#bacac5",
+                    "on-secondary-fixed": "#00201c",
+                    "on-error": "#690005",
+                    "on-secondary": "#003731",
+                    "outline-variant": "#3c4a46",
+                    "on-secondary-fixed-variant": "#1a4f47",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-primary-container": "#00574d",
+                    "surface-container": "#1a211f",
+                    "on-primary-fixed": "#00201c",
+                    "on-background": "#dde4e1",
+                    "error-container": "#93000a",
+                    "surface-tint": "#3cddc7",
+                    "surface-variant": "#2f3634",
+                    "surface-container-lowest": "#09100e",
+                    "secondary-container": "#1a4f47",
+                    "tertiary": "#ffd1aa",
+                    "on-primary-fixed-variant": "#005047",
+                    "primary-fixed": "#62fae3",
+                    "on-tertiary-container": "#744000",
+                    "on-surface": "#dde4e1",
+                    "tertiary-fixed": "#ffdcc0",
+                    "surface": "#0e1513",
+                    "secondary-fixed": "#b8ede2",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "surface-container-low": "#161d1b",
+                    "surface-bright": "#333b39",
+                    "inverse-surface": "#dde4e1",
+                    "on-primary": "#003731",
+                    "outline": "#859490",
+                    "primary-fixed-dim": "#3cddc7"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "gutter": "8px",
+                    "component-gap": "4px",
+                    "container-padding": "12px"
+            },
+            "fontFamily": {
+                    "mono-sm": ["JetBrains Mono"],
+                    "headline-sm": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-md": ["Inter"],
+                    "mono-md": ["JetBrains Mono"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "mono-sm": ["11px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "headline-sm": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "mono-md": ["13px", {"lineHeight": "20px", "fontWeight": "450"}],
+                    "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #09090b;
+            color: #dde4e1;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+            font-size: 18px;
+        }
+        /* Custom scrollbar for console feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3c4a46;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #859490;
+        }
+        .timeline-line {
+            width: 1px;
+            background: #3c4a46;
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+        }
+        .timeline-line-active {
+            width: 1px;
+            background: #57f1db;
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            box-shadow: 0 0 8px rgba(87, 241, 219, 0.3);
+        }
+    </style>
+</head>
+<body class="flex h-screen w-screen overflow-hidden">
+<!-- SideNavBar Component -->
+<aside class="w-64 h-screen border-r border-outline-variant bg-background flex flex-col transition-colors duration-150">
+<!-- Brand Header -->
+<div class="p-container-padding border-b border-outline-variant">
+<div class="flex items-center gap-2 mb-1">
+<div class="w-6 h-6 bg-primary rounded flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Metis</h1>
+</div>
+<p class="font-body-sm text-on-surface-variant opacity-60">v2.4.0-stable</p>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 py-4 overflow-y-auto">
+<div class="px-2 space-y-1">
+<!-- Main Console (Non-active) -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded transition-colors duration-150 font-body-md" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span>Main Console</span>
+</a>
+<!-- Calendar Agent (Non-active) -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded transition-colors duration-150 font-body-md" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span>Calendar Agent</span>
+</a>
+<!-- Email Agent (Non-active) -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded transition-colors duration-150 font-body-md" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span>Email Agent</span>
+</a>
+<!-- Files Agent (Non-active) -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded transition-colors duration-150 font-body-md" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span>Files Agent</span>
+</a>
+<!-- Event Log (Active State Mapping) -->
+<div class="mt-4 pt-4 border-t border-outline-variant">
+<a class="flex items-center gap-3 px-3 py-2 text-primary border-r-2 border-primary bg-surface-container-high rounded-l transition-colors duration-150 font-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span>Event Log</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Footer Actions -->
+<div class="p-container-padding border-t border-outline-variant flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded transition-colors duration-150 font-body-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded transition-colors duration-150 font-body-md" href="#">
+<span class="material-symbols-outlined">code</span>
+<span>Terminal</span>
+</a>
+<div class="mt-4 flex items-center gap-3 px-3 py-2">
+<div class="w-8 h-8 rounded bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="Metis Operator Avatar" class="w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIP3_Czw39YZ7rfDZIbgoruG1XIqvjJlmIvYAca7QXau6yh_5Xf8WxltdZC4zouyw80mc_Jdzj8iuAb6mvQnGlI3PCc3yLDvfgnOpqmGHqRdWG8rmI59vJiG_sVrF0qx6kNQknWQt-3JhBwFpDJhsAC_UrA6Ws1eBtg1Dw9J4RBy3GiWtR5ET_lo8epRRvnxkMhAtFjYDN8iUBDgPQIrWsmDLTnAJqHypWYHE0xX6v-rV-gwUyUKQ-6dXfC3-yaScjTVIn_Gm8Nhw"/>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm font-bold">Operator</span>
+<span class="text-[10px] text-on-surface-variant">Authenticated</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-screen bg-background overflow-hidden">
+<!-- TopNavBar Component -->
+<header class="flex justify-between items-center px-4 w-full h-12 sticky top-0 z-50 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary">Event Log</h2>
+<!-- Status Pill -->
+<div class="flex items-center gap-1.5 px-2 py-0.5 bg-secondary-container rounded border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-primary font-mono-sm text-mono-sm tracking-tight uppercase">Chain Verified ✓</span>
+</div>
+<!-- Filters -->
+<div class="flex items-center gap-2 ml-4">
+<div class="flex items-center gap-2 px-2 py-1 bg-surface-container border border-outline-variant rounded">
+<span class="text-on-surface-variant font-label-caps text-label-caps">Agent:</span>
+<select class="bg-transparent border-none p-0 font-body-sm text-primary focus:ring-0 cursor-pointer">
+<option>All</option>
+<option>Files Agent</option>
+<option>Email Agent</option>
+<option>Calendar Agent</option>
+</select>
+</div>
+<div class="flex items-center gap-2 px-2 py-1 bg-surface-container border border-outline-variant rounded">
+<span class="text-on-surface-variant font-label-caps text-label-caps">Kind:</span>
+<select class="bg-transparent border-none p-0 font-body-sm text-primary focus:ring-0 cursor-pointer">
+<option>All</option>
+<option>Executed</option>
+<option>Approved</option>
+<option>Proposed</option>
+<option>Observed</option>
+</select>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Trailing Icons -->
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-transform duration-100 active:scale-95">
+<span class="material-symbols-outlined">monitor_heart</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-transform duration-100 active:scale-95">
+<span class="material-symbols-outlined">group</span>
+</button>
+<button class="relative w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-transform duration-100 active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-1.5 h-1.5 bg-error rounded-full"></span>
+</button>
+</div>
+<button class="px-3 py-1 bg-primary text-on-primary font-label-caps text-label-caps rounded font-bold hover:brightness-110 transition-transform active:scale-95">
+                    Pending Approvals
+                </button>
+</div>
+</header>
+<!-- Vertical Timeline View -->
+<div class="flex-1 overflow-y-auto relative p-container-padding bg-background">
+<!-- Continuous Timeline Line -->
+<div class="timeline-line-active ml-[4px]"></div>
+<div class="space-y-unit flex flex-col gap-component-gap relative z-10">
+<!-- Row 1: Executed -->
+<div class="flex items-center h-10 group bg-surface-container-low hover:bg-surface-container-high border-b border-outline-variant/30 px-2 rounded-sm transition-colors cursor-default">
+<div class="w-8 flex justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-primary border-2 border-background ring-4 ring-primary/10"></div>
+</div>
+<div class="flex flex-1 items-center gap-gutter">
+<div class="w-24 shrink-0">
+<span class="px-2 py-0.5 rounded-full bg-primary-container/20 text-primary-container text-[10px] font-bold uppercase tracking-wider">Executed</span>
+</div>
+<div class="w-32 shrink-0">
+<span class="font-body-sm text-on-surface-variant">Files Agent</span>
+</div>
+<div class="w-20 shrink-0">
+<span class="font-mono-sm text-mono-sm text-on-surface-variant">14:30:12</span>
+</div>
+<div class="flex-1 overflow-hidden truncate">
+<span class="font-body-sm text-on-surface">Indexing /usr/bin/local</span>
+</div>
+<div class="w-32 text-right">
+<span class="font-mono-sm text-mono-sm text-on-surface-variant opacity-50">sha256:8f2c...</span>
+</div>
+</div>
+</div>
+<!-- Row 2: Approved -->
+<div class="flex items-center h-10 group bg-surface-container-low hover:bg-surface-container-high border-b border-outline-variant/30 px-2 rounded-sm transition-colors cursor-default">
+<div class="w-8 flex justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-secondary border-2 border-background"></div>
+</div>
+<div class="flex flex-1 items-center gap-gutter">
+<div class="w-24 shrink-0">
+<span class="px-2 py-0.5 rounded-full bg-secondary/20 text-secondary text-[10px] font-bold uppercase tracking-wider">Approved</span>
+</div>
+<div class="w-32 shrink-0">
+<span class="font-body-sm text-on-surface-variant">Email Agent</span>
+</div>
+<div class="w-20 shrink-0">
+<span class="font-mono-sm text-mono-sm text-on-surface-variant">14:28:45</span>
+</div>
+<div class="flex-1 overflow-hidden truncate">
+<span class="font-body-sm text-on-surface">Proposal #DRAFT-9921 authorized</span>
+</div>
+<div class="w-32 text-right">
+<span class="font-mono-sm text-mono-sm text-on-surface-variant opacity-50">sha256:3a91...</span>
+</div>
+</div>
+</div>
+<!-- Row 3: Proposed -->
+<div class="flex items-center h-10 group bg-surface-container-low hover:bg-surface-container-high border-b border-outline-variant/30 px-2 rounded-sm transition-colors cursor-default">
+<div class="w-8 flex justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary-container border-2 border-background"></div>
+</div>
+<div class="flex flex-1 items-center gap-gutter">
+<div class="w-24 shrink-0">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary-container text-[10px] font-bold uppercase tracking-wider">Proposed</span>
+</div>
+<div class="w-32 shrink-0">
+<span class="font-body-sm text-on-surface-variant">Calendar Agent</span>
+</div>
+<div class="w-20 shrink-0">
+<span class="font-mono-sm text-mono-sm text-on-surface-variant">14:25:30</span>
+</div>
+<div class="flex-1 overflow-hidden truncate">
+<span class="font-body-sm text-on-surface">Conflict detected in Q4 Planning</span>
+</div>
+<div class="w-32 text-right">
+<span class="font-mono-sm text-mono-sm text-on-surface-variant opacity-50">sha256:c104...</span>
+</div>
+</div>
+</div>
+<!-- Row 4: Observed -->
+<div class="flex items-center h-10 group bg-surface-container-low hover:bg-surface-container-high border-b border-outline-variant/30 px-2 rounded-sm transition-colors cursor-default">
+<div class="w-8 flex justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-outline border-2 border-background"></div>
+</div>
+<div class="flex flex-1 items-center gap-gutter">
+<div class="w-24 shrink-0">
+<span class="px-2 py-0.5 rounded-full bg-outline/20 text-outline text-[10px] font-bold uppercase tracking-wider">Observed</span>
+</div>
+<div class="w-32 shrink-0">
+<span class="font-body-sm text-on-surface-variant">Files Agent</span>
+</div>
+<div class="w-20 shrink-0">
+<span class="font-mono-sm text-mono-sm text-on-surface-variant">14:22:12</span>
+</div>
+<div class="flex-1 overflow-hidden truncate">
+<span class="font-body-sm text-on-surface">File modification: config.json</span>
+</div>
+<div class="w-32 text-right">
+<span class="font-mono-sm text-mono-sm text-on-surface-variant opacity-50">sha256:f022...</span>
+</div>
+</div>
+</div>
+<!-- Spacer and repeat pattern for demo density -->
+<div class="opacity-40 space-y-unit">
+<!-- Repeated Row -->
+<div class="flex items-center h-10 bg-surface-container-low/50 border-b border-outline-variant/10 px-2 rounded-sm">
+<div class="w-8 flex justify-center"><div class="w-1.5 h-1.5 rounded-full bg-outline"></div></div>
+<div class="flex flex-1 items-center gap-gutter">
+<div class="w-24 shrink-0"><span class="text-[9px] font-mono-sm uppercase text-outline">System</span></div>
+<div class="w-32 shrink-0"><span class="font-body-sm text-on-surface-variant">Kernel</span></div>
+<div class="w-20 shrink-0"><span class="font-mono-sm text-mono-sm">14:20:01</span></div>
+<div class="flex-1"><span class="font-body-sm italic">Entropy pool refreshed</span></div>
+<div class="w-32 text-right"><span class="font-mono-sm text-mono-sm">sha256:e019...</span></div>
+</div>
+</div>
+<div class="flex items-center h-10 bg-surface-container-low/50 border-b border-outline-variant/10 px-2 rounded-sm">
+<div class="w-8 flex justify-center"><div class="w-1.5 h-1.5 rounded-full bg-outline"></div></div>
+<div class="flex flex-1 items-center gap-gutter">
+<div class="w-24 shrink-0"><span class="text-[9px] font-mono-sm uppercase text-outline">System</span></div>
+<div class="w-32 shrink-0"><span class="font-body-sm text-on-surface-variant">Security</span></div>
+<div class="w-20 shrink-0"><span class="font-mono-sm text-mono-sm">14:18:55</span></div>
+<div class="flex-1"><span class="font-body-sm italic">Rotation of temporary keys completed</span></div>
+<div class="w-32 text-right"><span class="font-mono-sm text-mono-sm">sha256:a4d2...</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Status Bar -->
+<footer class="h-8 bg-surface-container-lowest border-t border-outline-variant px-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="font-mono-sm text-[10px] text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    SYNCED TO MAINNET
+                </span>
+<span class="font-mono-sm text-[10px] text-on-surface-variant">UPTIME: 14d 2h 45m</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-mono-sm text-[10px] text-on-surface-variant">LATENCY: 12ms</span>
+<span class="font-mono-sm text-[10px] text-on-surface-variant">MEM: 14.2GB / 64GB</span>
+</div>
+</footer>
+</main>
+<script>
+        // Simple console-like interaction for dropdowns
+        document.querySelectorAll('select').forEach(sel => {
+            sel.addEventListener('change', (e) => {
+                console.log(`Filter changed: ${e.target.value}`);
+                // In a real app, this would trigger a re-render or fetch
+            });
+        });
+
+        // Small atmospheric effect: slow scroll pulse on the timeline line
+        const timeline = document.querySelector('.timeline-line-active');
+        let opacity = 1;
+        let direction = -1;
+        
+        function pulseTimeline() {
+            opacity += 0.005 * direction;
+            if (opacity <= 0.4 || opacity >= 1) direction *= -1;
+            timeline.style.opacity = opacity;
+            requestAnimationFrame(pulseTimeline);
+        }
+        pulseTimeline();
+    </script>
+</body></html>

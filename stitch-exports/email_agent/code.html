@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Metis | Email Agent Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+            font-size: 18px;
+        }
+        /* Custom scrollbar for operator console feel */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #0e1513; }
+        ::-webkit-scrollbar-thumb { background: #3c4a46; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #859490; }
+        
+        .operator-grid {
+            background-image: radial-gradient(circle, #1a211f 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#00574d",
+                        "on-secondary-container": "#8bbfb5",
+                        "on-primary": "#003731",
+                        "primary-fixed": "#62fae3",
+                        "inverse-on-surface": "#2b3230",
+                        "background": "#0e1513",
+                        "surface-container-low": "#161d1b",
+                        "surface": "#0e1513",
+                        "on-tertiary": "#4b2800",
+                        "inverse-surface": "#dde4e1",
+                        "surface-variant": "#2f3634",
+                        "on-surface-variant": "#bacac5",
+                        "tertiary-fixed-dim": "#ffb875",
+                        "inverse-primary": "#006b5f",
+                        "on-primary-fixed": "#00201c",
+                        "on-tertiary-container": "#744000",
+                        "secondary-fixed": "#b8ede2",
+                        "surface-dim": "#0e1513",
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#333b39",
+                        "secondary": "#9cd1c6",
+                        "surface-container": "#1a211f",
+                        "surface-container-highest": "#2f3634",
+                        "surface-container-high": "#242b2a",
+                        "on-background": "#dde4e1",
+                        "tertiary": "#ffd1aa",
+                        "surface-tint": "#3cddc7",
+                        "error-container": "#93000a",
+                        "on-surface": "#dde4e1",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-primary-fixed-variant": "#005047",
+                        "outline": "#859490",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#2d1600",
+                        "primary": "#57f1db",
+                        "outline-variant": "#3c4a46",
+                        "error": "#ffb4ab",
+                        "secondary-fixed-dim": "#9cd1c6",
+                        "on-secondary-fixed-variant": "#1a4f47",
+                        "primary-container": "#2dd4bf",
+                        "primary-fixed-dim": "#3cddc7",
+                        "tertiary-container": "#ffac5a",
+                        "on-secondary-fixed": "#00201c",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "surface-container-lowest": "#09100e",
+                        "on-secondary": "#003731",
+                        "secondary-container": "#1a4f47"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "mono-md": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"],
+                        "mono-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "mono-md": ["13px", {"lineHeight": "20px", "fontWeight": "450"}],
+                        "headline-sm": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "mono-sm": ["11px", {"lineHeight": "16px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden flex h-screen">
+<!-- SideNavBar (Authority: Shared Components JSON) -->
+<aside class="w-64 h-screen border-r border-outline-variant bg-background flex flex-col shrink-0">
+<div class="p-4 flex items-center gap-3 border-b border-outline-variant">
+<div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Metis</h1>
+<p class="text-[10px] uppercase tracking-widest text-outline">v2.4.0-stable</p>
+</div>
+</div>
+<nav class="flex-1 py-4 overflow-y-auto">
+<!-- Navigation Items Mapping -->
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-body-md">Main Console</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-body-md">Calendar Agent</span>
+</a>
+<!-- ACTIVE: Email Agent -->
+<a class="flex items-center gap-3 px-4 py-2 text-primary border-r-2 border-primary bg-surface-container-high transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mail</span>
+<span class="font-body-md">Email Agent</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-body-md">Files Agent</span>
+</a>
+</nav>
+<div class="p-4 border-t border-outline-variant">
+<div class="flex items-center gap-3 mb-4">
+<img alt="Metis Operator Avatar" class="w-8 h-8 rounded bg-surface-container-highest border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBo5tApVPue0suJpqCw-UnJnKZJ0EY_QHNQQDiawl01a6hnYxTwMkT0hreB9XVUHq90gw4sRqYwP-kXUHJrdraZGLuXV0kjwriqtd6FLxydggr0eeZ32obWVXFQY429u-0HtiVstCzpWB11vX310dQvUfGfhgzTf02XMDfIYuKsmqBbc8qzlIuZkfMUG07Z1AE1--T4_00dkQ-j0SU8dmIt_Y9hEUVTDy9-Q_OZYRq4PoKCmzWhALdBl0xPZhCCVBqlglWeh3zKI30"/>
+<div class="flex flex-col">
+<span class="text-body-sm font-bold text-on-surface">Operator_01</span>
+<span class="text-[10px] text-outline">L-4 Clearance</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<button class="flex items-center gap-2 text-body-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span> Settings
+                </button>
+<button class="flex items-center gap-2 text-body-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">code</span> Terminal
+                </button>
+</div>
+</div>
+</aside>
+<div class="flex flex-col flex-1 min-w-0">
+<!-- TopNavBar (Authority: Shared Components JSON) -->
+<header class="flex justify-between items-center px-4 w-full h-12 sticky top-0 z-50 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Metis</span>
+<div class="relative group">
+<span class="absolute inset-y-0 left-2 flex items-center text-outline">
+<span class="material-symbols-outlined">search</span>
+</span>
+<input class="bg-surface-container-low border border-outline-variant text-body-sm pl-8 pr-3 py-1 rounded w-64 focus:outline-none focus:border-primary transition-colors" placeholder="Query communications..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3 pr-4 border-r border-outline-variant">
+<button class="text-on-surface-variant hover:text-primary scale-95 transition-transform duration-100"><span class="material-symbols-outlined">monitor_heart</span></button>
+<button class="text-on-surface-variant hover:text-primary scale-95 transition-transform duration-100"><span class="material-symbols-outlined">group</span></button>
+<button class="text-on-surface-variant hover:text-primary scale-95 transition-transform duration-100 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</div>
+<button class="bg-primary text-on-primary font-bold text-body-sm px-3 py-1 rounded hover:opacity-90 transition-opacity">
+                    Pending Approvals (3)
+                </button>
+</div>
+</header>
+<main class="flex-1 flex min-h-0 operator-grid">
+<!-- Left Column: Drafts & Primary Sorting -->
+<div class="flex-1 flex flex-col min-w-0 border-r border-outline-variant overflow-y-auto">
+<!-- Section: Draft Proposals -->
+<section class="p-4 border-b border-outline-variant bg-surface-container-low/50">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h2 class="font-label-caps text-label-caps text-outline uppercase">Draft Proposals</h2>
+</div>
+<span class="text-mono-sm text-primary">3 AUTO-GENERATED</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<!-- Draft Card 1 -->
+<div class="bg-surface border border-outline-variant p-3 rounded hover:border-primary transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono-sm text-outline">#DRAFT-9921</span>
+<span class="text-[10px] px-2 py-0.5 bg-secondary-container text-secondary rounded">94% Confidence</span>
+</div>
+<h3 class="font-body-md font-bold mb-1 truncate">Security Protocol Update [RE: Audit]</h3>
+<p class="text-body-sm text-on-surface-variant line-clamp-2 mb-3">Responding to the system vulnerability report from the external audit team. Suggesting 48-hour rotation schedule...</p>
+<div class="flex gap-2">
+<button class="flex-1 py-1.5 border border-outline-variant text-body-sm hover:bg-surface-container transition-all">Review Draft</button>
+<button class="px-3 py-1.5 bg-primary text-on-primary font-bold text-body-sm rounded">Approve Send</button>
+</div>
+</div>
+<!-- Draft Card 2 -->
+<div class="bg-surface border border-outline-variant p-3 rounded hover:border-primary transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono-sm text-outline">#DRAFT-9922</span>
+<span class="text-[10px] px-2 py-0.5 bg-secondary-container text-secondary rounded">88% Confidence</span>
+</div>
+<h3 class="font-body-md font-bold mb-1 truncate">Vendor SLA Negotiation</h3>
+<p class="text-body-sm text-on-surface-variant line-clamp-2 mb-3">Synthesized recent downtime logs to push for a 15% credit on current billing cycle with AWS North...</p>
+<div class="flex gap-2">
+<button class="flex-1 py-1.5 border border-outline-variant text-body-sm hover:bg-surface-container transition-all">Review Draft</button>
+<button class="px-3 py-1.5 bg-primary text-on-primary font-bold text-body-sm rounded">Approve Send</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: High-Priority Sorting -->
+<section class="flex-1 flex flex-col p-4">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error">priority_high</span>
+<h2 class="font-label-caps text-label-caps text-outline uppercase">High-Priority Inbound</h2>
+</div>
+<div class="flex gap-2">
+<button class="text-mono-sm border border-outline-variant px-2 py-0.5">FILTER: URGENT</button>
+<button class="text-mono-sm border border-outline-variant px-2 py-0.5">SORT: RELEVANCE</button>
+</div>
+</div>
+<div class="border border-outline-variant bg-surface flex-1 overflow-hidden flex flex-col">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-outline border-b border-outline-variant">
+<th class="px-3 py-2 font-label-caps text-label-caps uppercase w-32">Status</th>
+<th class="px-3 py-2 font-label-caps text-label-caps uppercase">Sender</th>
+<th class="px-3 py-2 font-label-caps text-label-caps uppercase">Subject</th>
+<th class="px-3 py-2 font-label-caps text-label-caps uppercase w-24">Hash</th>
+</tr>
+</thead>
+<tbody class="text-body-sm divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer group">
+<td class="px-3 py-2">
+<span class="bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded text-[10px] font-bold uppercase">Confirm</span>
+</td>
+<td class="px-3 py-2 text-on-surface font-medium">Global SecOps</td>
+<td class="px-3 py-2 text-on-surface-variant">Intrusion Attempt [Node-77-Gamma]</td>
+<td class="px-3 py-2 font-mono-sm text-outline">0x8B...2E</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer border-l-2 border-primary">
+<td class="px-3 py-2">
+<span class="bg-surface-variant text-outline px-2 py-0.5 rounded text-[10px] font-bold uppercase">Read-only</span>
+</td>
+<td class="px-3 py-2 text-on-surface font-medium">CTO Office</td>
+<td class="px-3 py-2 text-on-surface-variant">Weekly Sync: Compute Allocation</td>
+<td class="px-3 py-2 font-mono-sm text-outline">0xA1...99</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="px-3 py-2">
+<span class="bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded text-[10px] font-bold uppercase">Confirm</span>
+</td>
+<td class="px-3 py-2 text-on-surface font-medium">AWS-Internal</td>
+<td class="px-3 py-2 text-on-surface-variant">Resource Depletion Alert</td>
+<td class="px-3 py-2 font-mono-sm text-outline">0xFF...01</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="px-3 py-2">
+<span class="bg-surface-variant text-outline px-2 py-0.5 rounded text-[10px] font-bold uppercase">Read-only</span>
+</td>
+<td class="px-3 py-2 text-on-surface font-medium">Compliance Bot</td>
+<td class="px-3 py-2 text-on-surface-variant">GDPR Log Rotation Confirmation</td>
+<td class="px-3 py-2 font-mono-sm text-outline">0x42...C0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Right Column: Agent Reasoning Panel -->
+<aside class="w-80 bg-surface-container-lowest flex flex-col overflow-y-auto">
+<div class="p-4 border-b border-outline-variant bg-surface-container-low">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<h2 class="font-label-caps text-label-caps text-on-surface uppercase">Agent Reasoning</h2>
+</div>
+<p class="text-body-sm text-on-surface-variant">Metis-Intelligence Engine [Core-v4]</p>
+</div>
+<div class="p-4 space-y-6">
+<div class="space-y-3">
+<div class="flex items-start gap-2">
+<span class="w-1 h-4 bg-primary mt-0.5"></span>
+<div class="flex-1">
+<p class="text-mono-sm text-primary mb-1">[REL-HASH-992]</p>
+<p class="text-body-sm text-on-surface">Match found in security database. Sender 'Global SecOps' matched verified PGP fingerprint. Content sentiment: High Urgency / Low Hostility.</p>
+</div>
+</div>
+<div class="pl-3 border-l border-outline-variant py-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="text-mono-sm text-outline">Log Trace: DNS-Lookup</span>
+</div>
+<p class="text-[11px] font-mono-sm text-outline-variant">Resolving hop.secops.internal... SUCCESS (22ms)</p>
+</div>
+</div>
+<div class="space-y-3 opacity-60">
+<div class="flex items-start gap-2">
+<span class="w-1 h-4 bg-secondary mt-0.5"></span>
+<div class="flex-1">
+<p class="text-mono-sm text-secondary mb-1">[REL-HASH-412]</p>
+<p class="text-body-sm text-on-surface">Contextual mapping to 'Fiscal Quarter Q3'. Found mention of 'Billing Overage' which triggers policy #EMAIL-B-12.</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-3 border border-outline-variant">
+<p class="text-label-caps text-outline uppercase mb-2">Neural Link Status</p>
+<div class="h-1 bg-outline-variant w-full rounded-full overflow-hidden">
+<div class="h-full bg-primary w-4/5"></div>
+</div>
+<div class="flex justify-between mt-2 font-mono-sm text-[10px]">
+<span>SYNCING DATA</span>
+<span class="text-primary">82%</span>
+</div>
+</div>
+<div class="mt-auto pt-8">
+<div class="rounded border border-primary/20 bg-primary/5 p-3">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[16px]">info</span>
+<span class="text-label-caps text-primary uppercase">Strategy Note</span>
+</div>
+<p class="text-[11px] text-on-primary-container leading-relaxed">
+                                Drafts are currently in "Safe-Gate" mode. No emails will exit the network without manual operator signature.
+                            </p>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</div>
+<!-- Floating status overlay for operator aesthetic -->
+<div class="fixed bottom-4 right-4 flex flex-col items-end gap-2 pointer-events-none">
+<div class="bg-surface border border-outline-variant px-3 py-1 text-mono-sm flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="text-on-surface">UPLINK ACTIVE</span>
+</div>
+<div class="w-px h-3 bg-outline-variant"></div>
+<span class="text-outline">LATENCY: 12ms</span>
+<div class="w-px h-3 bg-outline-variant"></div>
+<span class="text-outline">QUEUE: 0</span>
+</div>
+</div>
+<script>
+        // Simple interactive simulation for the operator console
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('click', () => {
+                // Highlight the active row
+                document.querySelectorAll('tr').forEach(r => r.classList.remove('bg-surface-container-high'));
+                row.classList.add('bg-surface-container-high');
+            });
+        });
+
+        // Search bar interaction
+        const searchInput = document.querySelector('input');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-1', 'ring-primary/50');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-1', 'ring-primary/50');
+        });
+    </script>
+</body></html>

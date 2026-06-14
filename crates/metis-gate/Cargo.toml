@@ -1,0 +1,10 @@
+[package]
+name = "metis-gate"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+metis-core = { workspace = true }
+metis-log = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
